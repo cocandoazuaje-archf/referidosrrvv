@@ -1,0 +1,57 @@
+<settings>
+
+  <mirrors>
+    <mirror>
+      <id>nexus</id>
+      <!-- TODO por Nexus EXCEPTO central -->
+      <mirrorOf>*,!central</mirrorOf>
+      <url>https://nexus.empresa.cl:8081/repository/maven-public/</url>
+    </mirror>
+  </mirrors>
+
+  <servers>
+    <server>
+      <id>nexus</id>
+      <username>cocandoazuaje</username>
+      <password>wNHhQBpSs9B4xnH</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>default</activeProfile>
+  </activeProfiles>
+
+</settings>

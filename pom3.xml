@@ -1,0 +1,91 @@
+<!--
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cl.cnsv</groupId>
+    <artifactId>referidosrrvv</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+    &lt;!&ndash; ================= JAVA ================= &ndash;&gt;
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    &lt;!&ndash; ================= DEPENDENCIAS ================= &ndash;&gt;
+    <dependencies>
+
+        &lt;!&ndash; Servlet API (Tomcat) &ndash;&gt;
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        &lt;!&ndash; JSP &ndash;&gt;
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        &lt;!&ndash; JSON &ndash;&gt;
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+        &lt;!&ndash; Apache Commons IO &ndash;&gt;
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        &lt;!&ndash; Hibernate Validator &ndash;&gt;
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.5.Final</version>
+        </dependency>
+
+    </dependencies>
+
+    &lt;!&ndash; ================= BUILD ================= &ndash;&gt;
+    <build>
+        <finalName>referidosrrvv</finalName>
+
+        <plugins>
+
+            &lt;!&ndash; Compiler &ndash;&gt;
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+
+            &lt;!&ndash; WAR &ndash;&gt;
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
+-->
