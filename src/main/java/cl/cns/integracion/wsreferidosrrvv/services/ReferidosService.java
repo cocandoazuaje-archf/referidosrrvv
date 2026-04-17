@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import jakarta.ejb.Stateless;
+import jakarta.interceptor.Interceptors;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;

@@ -10,7 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -18,8 +19,7 @@ import  org.apache.logging.log4j.LogManager;
  */
 public class construirBodyEnviarMail {
 
-    private static final Logger LOGGER = Logger.getLogger(
-            construirBodyEnviarMail.class);
+    private static final Logger LOGGER = LogManager.getLogger(construirBodyEnviarMail.class);
 
     public static void construir(
             String correoDestinatario,

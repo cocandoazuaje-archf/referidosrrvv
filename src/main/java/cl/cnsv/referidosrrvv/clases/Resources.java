@@ -11,9 +11,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.naming.InitialContext;
-import jakarta.naming.NamingException;
-import jakarta.sql.DataSource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 

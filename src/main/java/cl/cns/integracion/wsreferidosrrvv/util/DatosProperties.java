@@ -3,12 +3,13 @@ package cl.cns.integracion.wsreferidosrrvv.util;
 import cl.cns.integracion.wsreferidosrrvv.vo.DatosContactoPropertiesMainVO;
 import java.io.IOException;
 import java.util.logging.Level;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DatosProperties {
 
         private static ResourceProperty rp = null;
-        private static final Logger LOGGER = Logger.getLogger(DatosProperties.class);
+        private static final Logger LOGGER = LogManager.getLogger(DatosProperties.class);
 
         private DatosProperties() {
                 // constructor vacio

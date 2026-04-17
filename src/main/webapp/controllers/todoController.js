@@ -11,7 +11,7 @@ angular
         ImportarReferidos, ReferenciasReagendadasFull, Referidos, PanelTotales,
         Ejecutivos, Referencias, ReferenciasReagendadas, Acciones, BitacorasByReferencia,
         Bitacoras, ReferenciasNoCerradas, $filter, $location, $http, $window, $scope,
-        $resource, Auth) {
+        $resource) {
 
         //coxrestaurar poner arriba de ultimo en controller
         //, Auth 
@@ -27,7 +27,7 @@ angular
         //vm.usuario = 'aeastorg';
 
         //vm.usuario = 'aeastorg'; 
-        //vm.usuario = 'rentpriv'; 
+        vm.usuario = 'aeastorg'; 
         //vm.token = Auth.token;
 
 
@@ -4665,7 +4665,7 @@ angular
        });
 
         // coxrestaurar borrar
-       //vm.cargarPerfilDeUsuario();
+       vm.cargarPerfilDeUsuario();
 
 
 

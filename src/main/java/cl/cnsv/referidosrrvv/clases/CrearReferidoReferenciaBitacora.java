@@ -19,10 +19,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import jakarta.naming.NamingException;
+import javax.naming.NamingException;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.UserTransaction;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -31,8 +32,7 @@ import  org.apache.logging.log4j.LogManager;
 public class CrearReferidoReferenciaBitacora {
 
     private String noSePudoInsertar = "No se pudo insertar el referido -> ";
-    private static final Logger LOGGER = Logger.getLogger(
-            CrearReferidoReferenciaBitacora.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(CrearReferidoReferenciaBitacora.class);
 
     public CrearReferidoReferenciaBitacora() throws NamingException {
         // Constructor vacio

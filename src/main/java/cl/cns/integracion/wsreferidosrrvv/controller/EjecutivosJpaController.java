@@ -22,7 +22,8 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -32,8 +33,7 @@ public class EjecutivosJpaController implements Serializable {
 
     private transient EntityManager em;
     private String valNoLonger = " no longer exists.";
-    private static final Logger LOGGER = Logger.getLogger(
-            EjecutivosJpaController.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(EjecutivosJpaController.class);
 
     public EjecutivosJpaController(EntityManager em) {
         this.em = em;

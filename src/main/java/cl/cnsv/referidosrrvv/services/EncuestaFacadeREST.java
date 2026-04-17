@@ -19,7 +19,8 @@ import jakarta.interceptor.Interceptors;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -33,8 +34,7 @@ public class EncuestaFacadeREST {
         @Inject
         EncuestaService encuestaService;
 
-        private static final Logger LOGGER = Logger.getLogger(
-                        EncuestaFacadeREST.class);
+        private static final Logger LOGGER = LogManager.getLogger(EncuestaFacadeREST.class);
 
         @GET
         @Path("/rut/{rut}")

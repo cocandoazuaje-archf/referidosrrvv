@@ -220,6 +220,14 @@ public class Resources {
         return varname;
     }
 
+    /**
+     * Compatibilidad: algunas clases de integración referencian este método.
+     * La implementación real vive en {@code cl.cnsv.referidosrrvv.clases.Resources}.
+     */
+    public static String sqlExportarDataTable() {
+        return cl.cnsv.referidosrrvv.clases.Resources.sqlExportarDataTable();
+    }
+
     public static String sqlObtenerMailEjecutiva() {
         String varname = "select correo from usuarios u " + "where usuario = ?";
 

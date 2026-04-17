@@ -27,7 +27,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -37,8 +38,7 @@ import  org.apache.logging.log4j.LogManager;
 @Path("cl.cnsv.referidosrrvv.models.referidos")
 public class ReferidosFacadeREST extends AbstractFacade<Referidos> {
 
-  private static final Logger LOGGER = Logger.getLogger(
-      ReferidosFacadeREST.class);
+  private static final Logger LOGGER = LogManager.getLogger(ReferidosFacadeREST.class);
 
   @PersistenceContext(unitName = "com.cox_referidos_war_1.0PU")
   private transient EntityManager em;

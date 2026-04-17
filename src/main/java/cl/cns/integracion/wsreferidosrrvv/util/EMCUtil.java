@@ -23,11 +23,12 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EMCUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(EMCUtil.class); // descomentado
+    private static final Logger LOGGER = LogManager.getLogger(EMCUtil.class); // descomentado
     private static final DatosContactoPropertiesMainVO propertiesVO = DatosProperties.loadPropertiesMain();
     private static final EMCredentialsVO credentialsVO = CredentialsProperties.loadPropertiesMain();
 

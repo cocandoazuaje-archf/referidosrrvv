@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -23,8 +24,7 @@ public class UpProspeccionTh implements Runnable {
 
     private List<Referidos> referidos = null;
 
-    private static final org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
-            UpProspeccionTh.class.getName());
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(UpProspeccionTh.class);
     private final String mensaje;
     private boolean pasaronDatos;
 

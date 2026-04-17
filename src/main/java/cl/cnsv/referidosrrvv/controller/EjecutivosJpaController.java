@@ -24,7 +24,8 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.UserTransaction;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -33,8 +34,7 @@ import  org.apache.logging.log4j.LogManager;
 public class EjecutivosJpaController implements Serializable {
 
   private transient EntityManager em;
-  private static final Logger LOGGER = Logger.getLogger(
-      EjecutivosJpaController.class.getName());
+  private static final Logger LOGGER = LogManager.getLogger(EjecutivosJpaController.class);
   private String valAnError = "An error occurred attempting to roll back the transaction.";
 
   public EjecutivosJpaController(

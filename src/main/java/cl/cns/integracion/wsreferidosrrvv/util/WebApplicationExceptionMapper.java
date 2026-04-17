@@ -8,7 +8,8 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WebApplicationExceptionMapper
         implements ExceptionMapper<WebApplicationException> {
@@ -16,8 +17,7 @@ public class WebApplicationExceptionMapper
     /**
      * Logger de la clase.
      */
-    private static final Logger LOGGER = Logger.getLogger(
-            WebApplicationExceptionMapper.class);
+    private static final Logger LOGGER = LogManager.getLogger(WebApplicationExceptionMapper.class);
 
     @Override
     public Response toResponse(WebApplicationException exception) {

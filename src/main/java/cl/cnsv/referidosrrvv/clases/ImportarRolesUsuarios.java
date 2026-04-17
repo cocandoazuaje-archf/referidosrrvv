@@ -13,7 +13,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.transaction.UserTransaction;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -21,8 +22,7 @@ import  org.apache.logging.log4j.LogManager;
  */
 public class ImportarRolesUsuarios {
 
-    private static final Logger LOGGER = Logger.getLogger(
-            ImportarRolesUsuarios.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(ImportarRolesUsuarios.class);
 
     public ImportarRolesUsuarios() {
         super();

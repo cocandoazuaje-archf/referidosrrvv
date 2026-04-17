@@ -21,7 +21,8 @@ import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.UserTransaction;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -30,8 +31,7 @@ import  org.apache.logging.log4j.LogManager;
 public class BitacorasJpaController implements Serializable {
 
   private transient EntityManager em;
-  private static final Logger LOGGER = Logger.getLogger(
-      BitacorasJpaController.class.getName());
+  private static final Logger LOGGER = LogManager.getLogger(BitacorasJpaController.class);
   private String valAnError = "An error occurred attempting to roll back the transaction.";
 
   public BitacorasJpaController(

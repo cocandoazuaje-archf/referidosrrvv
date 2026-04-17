@@ -3,15 +3,17 @@ package cl.cns.integracion.wsreferidosrrvv.util;
 import java.util.Arrays;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.InvocationContext;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LogInterceptor {
 
+    private static final Logger LOGGER = LogManager.getLogger(LogInterceptor.class);
+
     @AroundInvoke
     public Object log(InvocationContext ctx) throws Exception {
-        Logger logger = Logger.getLogger(ctx.getTarget().getClass().getName());
-        logger.info(Constantes.INICIO);
-        logger.info(
+        LOGGER.info(Constantes.INICIO);
+        LOGGER.info(
                 "ENTRANDO : "
                         + ctx.getMethod().getName()
                         + ",  Params"
@@ -19,7 +21,7 @@ public class LogInterceptor {
         long start = System.currentTimeMillis();
         Object returnMe = ctx.proceed();
         long executionTime = System.currentTimeMillis() - start;
-        logger.info(
+        LOGGER.info(
                 "SALIENDO : "
                         + ctx.getMethod().getName()
                         + ":"
@@ -27,7 +29,7 @@ public class LogInterceptor {
                         + "ms"
                         + " respuesta:"
                         + returnMe);
-        logger.info(Constantes.TERMINO);
+        LOGGER.info(Constantes.TERMINO);
         return returnMe;
     }
 }

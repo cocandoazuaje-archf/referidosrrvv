@@ -8,13 +8,14 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
 import jakarta.ws.rs.core.SecurityContext;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 
 public class ServiceUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(ServiceUtils.class);
+    private static final Logger LOGGER = LogManager.getLogger(ServiceUtils.class);
 
     public static <T> List<T> findBy(
             EntityManager em,
@@ -24,10 +25,9 @@ public class ServiceUtils {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> q = cb.createQuery(clase);
         Root<T> c = q.from(clase);
-        CriteriaQuery<T> q2 = q.select(c);
-        ParameterExpression<String> p = cb.parameter(String.class);
-        q2.where(cb.equal(c.get(nombreColumna), valorBuscado));
-        TypedQuery<T> tquery = em.createQuery(q);
+        CriteriaQuery<T> q2 = q.select(c)
+                .where(cb.equal(c.get(nombreColumna), valorBuscado));
+        TypedQuery<T> tquery = em.createQuery(q2);
         return tquery.getResultList();
     }
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cl.cnsv.referidosrrvv.clases;
+package cl.cns.integracion.wsreferidosrrvv.clases;
 
 import cl.cnsv.referidosrrvv.controller.BitacorasJpaController;
 import cl.cnsv.referidosrrvv.models.Bitacoras;
@@ -18,10 +18,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.servlet.ServletException;
-import javax.transaction.UserTransaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.servlet.ServletException;
+import jakarta.transaction.UserTransaction;
 
 /**
  *

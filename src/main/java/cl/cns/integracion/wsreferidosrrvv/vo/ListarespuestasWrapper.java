@@ -1,11 +1,10 @@
 package cl.cns.integracion.wsreferidosrrvv.vo;
 
-import cl.cns.integracion.wsreferidosrrvv.models.RespuestaEncuesta;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class ListarespuestasWrapper {
 

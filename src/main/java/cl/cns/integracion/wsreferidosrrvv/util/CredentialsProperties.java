@@ -3,13 +3,14 @@ package cl.cns.integracion.wsreferidosrrvv.util;
 import cl.cns.integracion.wsreferidosrrvv.vo.EMCredentialsVO;
 import java.io.IOException;
 import java.util.logging.Level;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CredentialsProperties {
 
     private static ResourceProperty rpFunc = null;
     private static ResourceProperty rpKeys = null;
-    private static final Logger LOGGER = Logger.getLogger(DatosProperties.class);
+    private static final Logger LOGGER = LogManager.getLogger(CredentialsProperties.class);
 
     private CredentialsProperties() {
         // constructor vacio

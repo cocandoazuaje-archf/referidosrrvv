@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 package cl.cnsv.referidosrrvv.util;
-    import org.ache.logging.log4j.LogManager;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  * @author cox
  */
 public class ValidarRutProspeccion {
 
-    private static final import org.apache.logging.log4j.LogManager;
-    LOGGER =
-.getLogger(ValidarRutProspeccion.class);
+    private static final Logger LOGGER = LogManager.getLogger(ValidarRutProspeccion.class);
 
     public ValidarRutProspeccion() {
         // constructor vacio
@@ -32,11 +32,11 @@ public class ValidarRutProspeccion {
                     int mantisaInt = Integer.parseInt(mantisa);
                     ret = validarRut(mantisaInt, dv);
                 }
-            } catch (Throwable e) {
-                LOGGER.error(e);
+            } catch (Exception e) {
+                LOGGER.error("Error validando RUT: {}", rut, e);
             }
         }
-        return !ret;
+        return ret;
     }
 
     private static boolean validarRut(int rut, char dv) {

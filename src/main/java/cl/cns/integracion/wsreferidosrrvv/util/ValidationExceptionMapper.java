@@ -5,7 +5,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ValidationExceptionMapper
         implements ExceptionMapper<ConstraintViolationException> {
@@ -13,8 +14,7 @@ public class ValidationExceptionMapper
     /**
      * Logger de la clase.
      */
-    private static final Logger LOGGER = Logger.getLogger(
-            ValidationExceptionMapper.class);
+    private static final Logger LOGGER = LogManager.getLogger(ValidationExceptionMapper.class);
 
     @Override
     public Response toResponse(ConstraintViolationException exception) {

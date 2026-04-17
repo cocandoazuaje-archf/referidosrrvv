@@ -8,11 +8,12 @@ package cl.cnsv.referidosrrvv.clases;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import jakarta.xml.parsers.DocumentBuilder;
-import jakarta.xml.parsers.DocumentBuilderFactory;
-import jakarta.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,8 +26,7 @@ import org.xml.sax.SAXException;
  */
 public class ProspeccionGetConfig {
 
-    private static final Logger LOGGER = Logger.getLogger(
-            ProspeccionGetConfig.class);
+    private static final Logger LOGGER = LogManager.getLogger(ProspeccionGetConfig.class);
     private String url;
     private String x_api_key;
     private String archivo2 = getClass()

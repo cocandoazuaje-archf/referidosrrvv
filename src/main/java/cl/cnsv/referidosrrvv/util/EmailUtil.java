@@ -13,11 +13,12 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EmailUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(EmailUtil.class);
+    private static final Logger LOGGER = LogManager.getLogger(EmailUtil.class);
 
     public static void sendEmail(
             Session session,

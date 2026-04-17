@@ -1,0 +1,60 @@
+**** antes de hacer todo esto : 
+poner :  
+subl /opt/homebrew/var/postgresql@17/pg_hba.conf
+
+con estos valores :
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+# "local" is for Unix domain socket connections only
+
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+
+* modificar subl  /opt/homebrew/var/postgresql@*/pg_hba.conf
+* ponerlo todo en trust al final de cada linea
+* reiniciar el servicio :  brew services restart postgresql@17
+* entrar sin clave :   psql -U postgres    
+y listo: postgres=#
+
+*** ojo todos los comandos o creaciones y manipulaciion de campo o tablas
+ se hacen por Dbeaver
+
+a continuacion una lista de todos los camandos utilizados para limouar y preparar el csv, porque genere el archivo co formato csv de TOAD
+
+cat << 'EOF' | pbcopy
+**** antes de hacer todo esto : 
+poner :  
+subl /opt/homebrew/var/postgresql@17/pg_hba.conf
+
+con estos valores :
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+# "local" is for Unix domain socket connections only
+
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+
+* modificar subl  /opt/homebrew/var/postgresql@*/pg_hba.conf
+* ponerlo todo en trust al final de cada linea
+* reiniciar el servicio :  brew services restart postgresql@17
+* entrar sin clave :   psql -U postgres    
+y listo: postgres=#
+
+*** ojo todos los comandos o creaciones y manipulaciion de campo o tablas
+ se hacen por Dbeaver
+
+a continuacion una lista de todos los camandos utilizados para limouar y preparar el csv, porque genere el archivo co formato csv de TOAD

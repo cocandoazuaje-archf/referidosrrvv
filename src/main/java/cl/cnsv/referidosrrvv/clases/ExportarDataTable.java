@@ -38,6 +38,17 @@ public class ExportarDataTable {
             String mes,
             String supervisor,
             String searchId,
+            UserTransaction utx,
+            EntityManager em) throws UnsupportedEncodingException, IOException {
+        return exportar(sucursal, anio, mes, supervisor, searchId, em);
+    }
+
+    public List<ReferenciasExport> exportar(
+            String sucursal,
+            String anio,
+            String mes,
+            String supervisor,
+            String searchId,
             EntityManager em) throws UnsupportedEncodingException, IOException {
 
         String sqlBase = Resources.sqlExportarDataTable();
@@ -197,7 +208,7 @@ public class ExportarDataTable {
         re.setTipoPension(arde.tipoPension(r.getReferidoId()));
     }
 
-    private String obtenerUltimosComentarios(Long referenciaId, EntityManager em) {
+    private String obtenerUltimosComentarios(BigDecimal referenciaId, EntityManager em) {
         // Consulta optimizada para traer solo los 2 últimos comentarios en una sola query si es posible
         Query q1 = em.createNativeQuery(Resources.sql2UltimosComentarios(), Bitacoras.class);
         q1.setParameter(1, referenciaId);

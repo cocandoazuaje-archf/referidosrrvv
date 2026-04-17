@@ -20,11 +20,12 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SMSUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(SMSUtil.class);
+    private static final Logger LOGGER = LogManager.getLogger(SMSUtil.class);
     private static final DatosContactoPropertiesMainVO propertiesVO = DatosProperties.loadPropertiesMain();
     private static final EMCredentialsVO credentialsVO = CredentialsProperties.loadPropertiesMain();
 

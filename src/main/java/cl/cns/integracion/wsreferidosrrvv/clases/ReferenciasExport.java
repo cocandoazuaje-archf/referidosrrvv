@@ -26,6 +26,16 @@ public class ReferenciasExport {
     private String tipoPension;
     private String sexo;
     private String fechaFicha;
+    private Date fechaAccion;
+
+    private String encDigitalPreg1;
+    private short encDigitalResp1;
+    private String encDigitalPreg2;
+    private short encDigitalResp2;
+    private String encDigitalPreg3;
+    private short encDigitalResp3;
+    private String encDigitalPreg4;
+    private String encDigitalResp4;
 
     public ReferenciasExport() {
         // constructor vacio
@@ -37,6 +47,78 @@ public class ReferenciasExport {
 
     public void setFechaFicha(String fechaFicha) {
         this.fechaFicha = fechaFicha;
+    }
+
+    public Date getFechaAccion() {
+        return fechaAccion;
+    }
+
+    public void setFechaAccion(Date fechaAccion) {
+        this.fechaAccion = fechaAccion;
+    }
+
+    public String getEncDigitalPreg1() {
+        return encDigitalPreg1;
+    }
+
+    public void setEncDigitalPreg1(String encDigitalPreg1) {
+        this.encDigitalPreg1 = encDigitalPreg1;
+    }
+
+    public short getEncDigitalResp1() {
+        return encDigitalResp1;
+    }
+
+    public void setEncDigitalResp1(short encDigitalResp1) {
+        this.encDigitalResp1 = encDigitalResp1;
+    }
+
+    public String getEncDigitalPreg2() {
+        return encDigitalPreg2;
+    }
+
+    public void setEncDigitalPreg2(String encDigitalPreg2) {
+        this.encDigitalPreg2 = encDigitalPreg2;
+    }
+
+    public short getEncDigitalResp2() {
+        return encDigitalResp2;
+    }
+
+    public void setEncDigitalResp2(short encDigitalResp2) {
+        this.encDigitalResp2 = encDigitalResp2;
+    }
+
+    public String getEncDigitalPreg3() {
+        return encDigitalPreg3;
+    }
+
+    public void setEncDigitalPreg3(String encDigitalPreg3) {
+        this.encDigitalPreg3 = encDigitalPreg3;
+    }
+
+    public short getEncDigitalResp3() {
+        return encDigitalResp3;
+    }
+
+    public void setEncDigitalResp3(short encDigitalResp3) {
+        this.encDigitalResp3 = encDigitalResp3;
+    }
+
+    public String getEncDigitalPreg4() {
+        return encDigitalPreg4;
+    }
+
+    public void setEncDigitalPreg4(String encDigitalPreg4) {
+        this.encDigitalPreg4 = encDigitalPreg4;
+    }
+
+    public String getEncDigitalResp4() {
+        return encDigitalResp4;
+    }
+
+    public void setEncDigitalResp4(String encDigitalResp4) {
+        this.encDigitalResp4 = encDigitalResp4;
     }
 
     /**

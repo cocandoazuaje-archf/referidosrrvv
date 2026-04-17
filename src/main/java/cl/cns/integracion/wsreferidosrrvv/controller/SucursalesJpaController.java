@@ -39,8 +39,6 @@ public class SucursalesJpaController implements Serializable {
         if (nombre == null)
             return null;
 
-        EntityManager em = getEntityManager();
-
         try {
             TypedQuery<Sucursales> q = em.createQuery(
                     "SELECT s FROM Sucursales s WHERE LOWER(s.nombre) = :nombre",
@@ -53,12 +51,15 @@ public class SucursalesJpaController implements Serializable {
             return result.isEmpty() ? null : result.get(0);
 
         } finally {
-            em.close();
         }
     }
 
     public SucursalesJpaController(EntityManager em) {
         this.em = em;
+    }
+
+    public EntityManager getEntityManager() {
+        return em;
     }
 
     public void create(Sucursales sucursales)

@@ -6,6 +6,8 @@
 package cl.cnsv.referidosrrvv.clases;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;

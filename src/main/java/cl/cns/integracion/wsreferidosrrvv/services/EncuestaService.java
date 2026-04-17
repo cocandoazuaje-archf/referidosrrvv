@@ -24,7 +24,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.SecurityContext;
-import  org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Stateless
 public class EncuestaService {
@@ -40,7 +41,7 @@ public class EncuestaService {
 
   private String valueNoseEncontro = "No se encontro el referido con rut: ";
 
-  private static final Logger LOGGER = Logger.getLogger(EncuestaService.class);
+  private static final Logger LOGGER = LogManager.getLogger(EncuestaService.class);
   private static final DatosContactoPropertiesMainVO propertiesVO = DatosProperties.loadPropertiesMain();
 
   @Interceptors(LogInterceptor.class)
