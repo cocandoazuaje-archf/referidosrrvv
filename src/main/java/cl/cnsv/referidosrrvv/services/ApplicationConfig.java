@@ -28,5 +28,13 @@ public class ApplicationConfig extends Application {
          * out calling this method in getClasses().
          */
         private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(cl.cnsv.referidosrrvv.services.AccionesFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.BitacorasFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.EjecutivosFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.EncuestaFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.ReferenciasFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.ReferidosFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.RolesusuariosFacadeREST.class);
+        resources.add(cl.cnsv.referidosrrvv.services.SucursalesFacadeREST.class);
         }
 }

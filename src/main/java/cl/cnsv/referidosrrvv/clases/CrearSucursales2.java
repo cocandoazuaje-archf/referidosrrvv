@@ -53,7 +53,7 @@ public class CrearSucursales2 {
                     ecrs.setCOMUNA(rjs.getCOMUNA());
                     ecrs.setREGION(rjs.getREGION());
                     ecrs.setERROR(
-                            "No se puede editar la sucursal "
+                            "ecrs.setERROR("Error procesando sucursal: " + e.getMessage()); "
                                     + rjs.getCODSUCURSAL()
                                     + " , la sucursal no existe.");
                     ecrsList.add(ecrs);
