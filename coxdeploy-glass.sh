@@ -1,30 +1,22 @@
-mvn clean package -X
+#!/bin/bash
 
-if [ "$1" == "1" ]
-then
-    echo "***** se hara Re-deployment ...."
-    echo "***** se hara Re-deployment ...."
-    echo "***** se hara Re-deployment ...."
-    echo "***** se hara Re-deployment ...."
+clear
 
-    /Users/carlosocando/Downloads/glassfish7/glassfish8/glassfish/bin/asadmin redeploy /Users/carlosocando/.m2/repository/cl/cns/referidosrrvv/1.0/referidosrrvv-1.0.war
+GLASSFISH="/Users/carlosocando/Downloads/glassfish7/glassfish8/glassfish/bin/asadmin"
+WAR="/Users/carlosocando/Documentos/referidos_elias/git/refderidos/git/rereferidosrrvv-git/target/referidosrrvv-1.0.war"
+
+echo "***** Compilando proyecto *****"
+mvn clean package -DskipTests
+
+if [ "$1" = "1" ]; then
+    echo "***** Redeploy *****"
+    $GLASSFISH redeploy "$WAR" referidosrrvv-1.0
+
 else
-    echo "***** se levantando glassfish7  ...."
-    echo "***** se levantando glassfish7  ...."
-    echo "***** se levantando glassfish7  ...."
-    echo "***** se levantando glassfish7  ...."
+    echo "***** Iniciando GlassFish *****"
+    $GLASSFISH start-domain
 
- /Users/carlosocando/Downloads/glassfish7/glassfish8/glassfish/bin/asadmin start-domain
-
-     echo "***** haciendo deploy en glassfish7  ...."
-    echo "***** haciendo deploy en glassfish7  ...."
-    echo "***** haciendo deploy en glassfish7  ...."
-    echo "***** haciendo deploy en glassfish7  ...."
-
-    /Users/carlosocando/Downloads/glassfish4/payara7/bin/asadmin deploy /Users/carlosocando/Documentos/referidos_elias/git/refderidos/git/rereferidosrrvv-git/target/referidosrrvv-1.0.war
+    echo "***** Deploy *****"
+    $GLASSFISH deploy --force=true "$WAR"
 
 fi
-
-
-
-

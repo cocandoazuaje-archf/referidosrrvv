@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.UserTransaction;
-import  org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,53 +23,59 @@ import  org.apache.logging.log4j.LogManager;
  */
 public class CrearSucursales {
 
-    private static final Logger LOGGER = Logger.getLogger(
-            CrearSucursales.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrearSucursales.class);
 
     public CrearSucursales() {
-        // constructor vacio
+        // constructor vacío
     }
 
     public List<ErrorCrearSucursalesOut> cargar(
             List<EntidadDeCargaJs> rjsList,
             UserTransaction utx,
             EntityManager em) throws RollbackFailureException, Exception {
+
         SucursalesJpaController1 sc = new SucursalesJpaController1(utx, null, em);
         List<ErrorCrearSucursalesOut> ecrsList = new ArrayList<>();
-        Sucursales s = new Sucursales();
 
         for (EntidadDeCargaJs rjs : rjsList) {
             try {
                 if (rjs.getCODSUCURSAL() == null) {
-                    s = new Sucursales();
+                    // CREATE
+                    Sucursales s = new Sucursales();
                     s.setVersion(BigInteger.ONE);
-                    s.setNombre(rjs.getSUCURSAL().trim());
+                    s.setNombre(rjs.getSUCURSAL() != null ? rjs.getSUCURSAL().trim() : null);
                     s.setDireccion(rjs.getDIRECCION());
                     s.setComuna(rjs.getCOMUNA());
                     s.setRegion(rjs.getREGION());
                     sc.create(s);
+
                 } else {
-                    s = sc.findSucursales(rjs.getCODSUCURSAL());
-                    s.setNombre(rjs.getSUCURSAL().trim());
+                    // UPDATE
+                    Sucursales s = sc.findSucursales(rjs.getCODSUCURSAL());
+
+                    if (s == null) {
+                        throw new Exception("Sucursal no existe: " + rjs.getCODSUCURSAL());
+                    }
+
+                    s.setNombre(rjs.getSUCURSAL() != null ? rjs.getSUCURSAL().trim() : null);
                     s.setDireccion(rjs.getDIRECCION());
                     s.setComuna(rjs.getCOMUNA());
                     s.setRegion(rjs.getREGION());
                     sc.edit(s);
                 }
+
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("Error procesando sucursal", e);
+
                 ErrorCrearSucursalesOut ecrs = new ErrorCrearSucursalesOut();
                 ecrs.setCODSUCURSAL(rjs.getCODSUCURSAL());
                 ecrs.setSUCURSAL(rjs.getSUCURSAL());
                 ecrs.setDIRECCION(rjs.getDIRECCION());
                 ecrs.setCOMUNA(rjs.getCOMUNA());
                 ecrs.setREGION(rjs.getREGION());
-                ecrs.setERROR(
-                        "No se puede editar la sucursal "
-                                + rjs.getCODSUCURSAL()
-                                + " , la sucursal no existe.");
+                ecrs.setERROR("Error procesando sucursal: " + e.getMessage());
+
                 ecrsList.add(ecrs);
-                continue;
             }
         }
         return ecrsList;
@@ -84,100 +91,58 @@ public class CrearSucursales {
         private String REGION;
         private String ERROR;
 
-        /**
-         * @return the CODSUCURSAL
-         */
         public BigDecimal getCODSUCURSAL() {
             return CODSUCURSAL;
         }
 
-        /**
-         * @param CODSUCURSAL the CODSUCURSAL to set
-         */
         public void setCODSUCURSAL(BigDecimal CODSUCURSAL) {
             this.CODSUCURSAL = CODSUCURSAL;
         }
 
-        /**
-         * @return the SUCURSAL
-         */
         public String getSUCURSAL() {
             return SUCURSAL;
         }
 
-        /**
-         * @param SUCURSAL the SUCURSAL to set
-         */
         public void setSUCURSAL(String SUCURSAL) {
             this.SUCURSAL = SUCURSAL;
         }
 
-        /**
-         * @return the NOMBRE
-         */
         public String getNOMBRE() {
             return NOMBRE;
         }
 
-        /**
-         * @param NOMBRE the NOMBRE to set
-         */
         public void setNOMBRE(String NOMBRE) {
             this.NOMBRE = NOMBRE;
         }
 
-        /**
-         * @return the DIRECCION
-         */
         public String getDIRECCION() {
             return DIRECCION;
         }
 
-        /**
-         * @param DIRECCION the DIRECCION to set
-         */
         public void setDIRECCION(String DIRECCION) {
             this.DIRECCION = DIRECCION;
         }
 
-        /**
-         * @return the COMUNA
-         */
         public String getCOMUNA() {
             return COMUNA;
         }
 
-        /**
-         * @param COMUNA the COMUNA to set
-         */
         public void setCOMUNA(String COMUNA) {
             this.COMUNA = COMUNA;
         }
 
-        /**
-         * @return the REGION
-         */
         public String getREGION() {
             return REGION;
         }
 
-        /**
-         * @param REGION the REGION to set
-         */
         public void setREGION(String REGION) {
             this.REGION = REGION;
         }
 
-        /**
-         * @return the ERROR
-         */
         public String getERROR() {
             return ERROR;
         }
 
-        /**
-         * @param ERROR the ERROR to set
-         */
         public void setERROR(String ERROR) {
             this.ERROR = ERROR;
         }

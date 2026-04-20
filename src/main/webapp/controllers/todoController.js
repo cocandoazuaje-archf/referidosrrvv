@@ -27,7 +27,7 @@ angular
         //vm.usuario = 'aeastorg';
 
         //vm.usuario = 'aeastorg'; 
-        vm.usuario = 'aeastorg'; 
+        vm.usuario = 'aeastorg';
         //vm.token = Auth.token;
 
 
@@ -4243,6 +4243,7 @@ angular
         }
 
         vm.actuareComoSupervisor = function () {
+            alert("Se establecerá como supervisor2 ..!!!");
             vm.rollUsuario = 'sup';
             vm.mostrarContactos();
         }
