@@ -4652,18 +4652,18 @@ angular
         }
 
        // coxrestaurar
-       Auth.loadUserInfo().success(function(userInfo) {
-           vm.mailUsuario = userInfo.email;
-           vm.usuario = userInfo.preferred_username;
-           vm.usuarioname = userInfo.name;
-           console.log("**** Ok -> keycloak.loadUserInfo");
-           vm.cargarPerfilDeUsuario();
-
-       }).error(function(err) {
-           console.log("**** Err -> keycloak.loadUserInfo");
-
-
-       });
+//       Auth.loadUserInfo().success(function(userInfo) {
+//           vm.mailUsuario = userInfo.email;
+//           vm.usuario = userInfo.preferred_username;
+//           vm.usuarioname = userInfo.name;
+//           console.log("**** Ok -> keycloak.loadUserInfo");
+//           vm.cargarPerfilDeUsuario();
+//
+//       }).error(function(err) {
+//           console.log("**** Err -> keycloak.loadUserInfo");
+//
+//
+//       });
 
         // coxrestaurar borrar
        vm.cargarPerfilDeUsuario();

@@ -32,9 +32,25 @@ public class CrearSucursales2 {
             Sucursales s = null;
 
             try {
+<<<<<<< HEAD
                 // Buscar si existe
                 if (rjs.getCODSUCURSAL() != null) {
                     s = sc.findSucursales(rjs.getCODSUCURSAL());
+=======
+                if (s == null && rjs.getCODSUCURSAL() != null) {
+                    ErrorCrearSucursalesOut ecrs = new ErrorCrearSucursalesOut();
+                    ecrs.setCODSUCURSAL(rjs.getCODSUCURSAL());
+                    ecrs.setSUCURSAL(rjs.getSUCURSAL());
+                    ecrs.setDIRECCION(rjs.getDIRECCION());
+                    ecrs.setCOMUNA(rjs.getCOMUNA());
+                    ecrs.setREGION(rjs.getREGION());
+                    ecrs.setERROR(
+                            "ecrs.setERROR("Error procesando sucursal: " + e.getMessage()); "
+                                    + rjs.getCODSUCURSAL()
+                                    + " , la sucursal no existe.");
+                    ecrsList.add(ecrs);
+                    continue;
+>>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
                 }
 
                 if (s == null) {

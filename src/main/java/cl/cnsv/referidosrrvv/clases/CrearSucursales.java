@@ -8,14 +8,21 @@ package cl.cnsv.referidosrrvv.clases;
 import cl.cnsv.referidosrrvv.controller.SucursalesJpaController1;
 import cl.cnsv.referidosrrvv.controller.exceptions.RollbackFailureException;
 import cl.cnsv.referidosrrvv.models.Sucursales;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.UserTransaction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.UserTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+=======
+import  java.util.logging.Logger;
+
+>>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
 
 /**
  *
@@ -50,6 +57,7 @@ public class CrearSucursales {
                     sc.create(s);
 
                 } else {
+<<<<<<< HEAD
                     // UPDATE
                     Sucursales s = sc.findSucursales(rjs.getCODSUCURSAL());
 
@@ -57,6 +65,9 @@ public class CrearSucursales {
                         throw new Exception("Sucursal no existe: " + rjs.getCODSUCURSAL());
                     }
 
+=======
+                    s = sc.findSucursales(rjs.getCODSUCURSAL());
+>>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
                     s.setNombre(rjs.getSUCURSAL() != null ? rjs.getSUCURSAL().trim() : null);
                     s.setDireccion(rjs.getDIRECCION());
                     s.setComuna(rjs.getCOMUNA());
@@ -65,16 +76,27 @@ public class CrearSucursales {
                 }
 
             } catch (Exception e) {
+<<<<<<< HEAD
                 LOGGER.error("Error procesando sucursal", e);
 
+=======
+               LOGGER.log(java.util.logging.Level.SEVERE, "Error ocurrido", e);
+>>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
                 ErrorCrearSucursalesOut ecrs = new ErrorCrearSucursalesOut();
                 ecrs.setCODSUCURSAL(rjs.getCODSUCURSAL());
                 ecrs.setSUCURSAL(rjs.getSUCURSAL());
                 ecrs.setDIRECCION(rjs.getDIRECCION());
                 ecrs.setCOMUNA(rjs.getCOMUNA());
                 ecrs.setREGION(rjs.getREGION());
+<<<<<<< HEAD
                 ecrs.setERROR("Error procesando sucursal: " + e.getMessage());
 
+=======
+                ecrs.setERROR(
+                        "ecrs.setERROR("Error procesando sucursal: " + e.getMessage()); "
+                                + rjs.getCODSUCURSAL()
+                                + " , la sucursal no existe.");
+>>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
                 ecrsList.add(ecrs);
             }
         }
