@@ -33,6 +33,7 @@ public class CrearSucursales2 {
 
             try {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 // Buscar si existe
                 if (rjs.getCODSUCURSAL() != null) {
                     s = sc.findSucursales(rjs.getCODSUCURSAL());
@@ -51,6 +52,11 @@ public class CrearSucursales2 {
                     ecrsList.add(ecrs);
                     continue;
 >>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
+=======
+                // Buscar si existe
+                if (rjs.getCODSUCURSAL() != null) {
+                    s = sc.findSucursales(rjs.getCODSUCURSAL());
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                 }
 
                 if (s == null) {

@@ -1,24 +1,61 @@
-angular
-    .module("todo").config(function ($mdDateLocaleProvider) {
+(function () {
+    'use strict';
+
+    /**
+     * Módulo principal
+     */
+    angular
+        .module("todo")
+        .config(config)
+        .controller("TodoController", TodoController);
+
+    /**
+     * Configuración de fechas (Angular Material + moment.js)
+     */
+    function config($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function (date) {
             return date ? moment(date).format('DD-MM-YYYY') : '';
         };
-    })
-    .controller("TodoController", function (
-        VerificaReferenciaActiva, Sucursales, Canales, RolesUsuarios, ExportarDatatable, DerivarMasivo,
-        ImportarRolesUsuarios, ImportarSucursalesEjecutivos, ImportarSucursales,
-        ExportarReferidos, RolesUsuariosNombre, ActualizarReferidosSi, ActualizarReferidosNo,
-        ImportarReferidos, ReferenciasReagendadasFull, Referidos, PanelTotales,
-        Ejecutivos, Referencias, ReferenciasReagendadas, Acciones, BitacorasByReferencia,
-        Bitacoras, ReferenciasNoCerradas, $filter, $location, $http, $window, $scope,
-        $resource) {
+    }
 
-        //coxrestaurar poner arriba de ultimo en controller
-        //, Auth 
- 
-        // Auth
+    /**
+     * Inyección explícita (IMPORTANTE para minificación)
+     */
+    TodoController.$inject = [
+        'VerificaReferenciaActiva', 'Sucursales', 'Canales', 'RolesUsuarios',
+        'ExportarDatatable', 'DerivarMasivo', 'ImportarRolesUsuarios',
+        'ImportarSucursalesEjecutivos', 'ImportarSucursales',
+        'ExportarReferidos', 'RolesUsuariosNombre', 'ActualizarReferidosSi',
+        'ActualizarReferidosNo', 'ImportarReferidos',
+        'ReferenciasReagendadasFull', 'Referidos', 'PanelTotales',
+        'Ejecutivos', 'Referencias', 'ReferenciasReagendadas',
+        'Acciones', 'BitacorasByReferencia', 'Bitacoras',
+        'ReferenciasNoCerradas', '$filter', '$location',
+        '$http', '$window', '$scope', '$resource'
+        // ,'Auth'  <-- si lo usas, descomenta e inyéctalo
+    ];
+
+    function TodoController(
+        VerificaReferenciaActiva, Sucursales, Canales, RolesUsuarios,
+        ExportarDatatable, DerivarMasivo, ImportarRolesUsuarios,
+        ImportarSucursalesEjecutivos, ImportarSucursales,
+        ExportarReferidos, RolesUsuariosNombre, ActualizarReferidosSi,
+        ActualizarReferidosNo, ImportarReferidos,
+        ReferenciasReagendadasFull, Referidos, PanelTotales,
+        Ejecutivos, Referencias, ReferenciasReagendadas,
+        Acciones, BitacorasByReferencia, Bitacoras,
+        ReferenciasNoCerradas, $filter, $location,
+        $http, $window, $scope, $resource
+        // ,Auth
+    ) {
+
         var vm = this;
+
+        /** =========================
+         * 🔐 USUARIO
+         * ========================= */
         vm.usuario = '';
+<<<<<<< HEAD
         vm.filtroPrioridad=false;
 
         //coxrestaurar 
@@ -43,161 +80,70 @@ angular
 
 
         vm.rollUsuario = "";
+=======
+        vm.rollUsuario = '';
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
         vm.dobleRoll = false;
-        vm.old_rut = "";
-        vm.canalDigital = [];
-        vm.canalDigitalRespuestas = [];
+
+        /** =========================
+         * 🎯 FLAGS UI
+         * ========================= */
+        vm.filtroPrioridad = false;
         vm.verEncuesta1 = true;
         vm.verEncuesta2 = false;
         vm.traeRespuestas = 0;
-        vm.fechaNac;
-        vm.mesAnioFiltroGraph;
-        vm.ReferenciasNoCerradas = [];
-        vm.ReferenciasReagendadas = [];
-        vm.referenciaSeleccionada = {};
+        vm.mostrarLoading = false;
+        vm.estoyViendoUnaRef = false;
+        vm.yaledi = false;
+        vm.mostrarIngresarReferido = false;
 
-        vm.anioParamUrlDataTable = 'undefined';
-        vm.mesParamUrlDataTable = 'undefined';
-        vm.ejecutivosSelectFiltroPanel = 'undefined';
-        vm.sucursalesSelectFiltroPanel = 'undefined';
-        vm.sucursalesSelectFiltroPanel2 = 'undefined';
+        /** =========================
+         * 📊 FILTROS
+         * ========================= */
+        vm.anioParamUrlDataTable = undefined;
+        vm.mesParamUrlDataTable = undefined;
+        vm.ejecutivosSelectFiltroPanel = undefined;
+        vm.sucursalesSelectFiltroPanel = undefined;
+        vm.sucursalesSelectFiltroPanel2 = undefined;
 
-        vm.op = 0;
         vm.filtroReferenciasNoCerradas = '';
         vm.filtroReferenciasTodoEje = '';
         vm.filtroReferenciasReagendadas = '';
         vm.filtroReferenciasReagendadasTodoEje = '';
+
+        /** =========================
+         * 📦 MODELOS
+         * ========================= */
+        vm.canalDigital = [];
+        vm.canalDigitalRespuestas = [];
+        vm.ReferenciasNoCerradas = [];
+        vm.ReferenciasReagendadas = [];
+        vm.referenciaSeleccionada = {};
         vm.ficha = {};
+        vm.acciones = [];
 
-
+        /** =========================
+         * 🖼️ RECURSOS
+         * ========================= */
         vm.imagePath1 = 'img/ficharDatosPersonal.png';
         vm.imagePath2 = 'img/encuestaFicha.png';
         vm.imagePath3 = 'img/encuestaFicha.png';
 
-        vm.mostrarLoading = false;
-        vm.estoyViendoUnaRef = false;
-        vm.acciones = [];
-        vm.yaledi = false;
-        vm.mostrarIngresarReferido = false;
+        /** =========================
+         * 🔄 VISTAS
+         * ========================= */
         vm.verContactos = {
             contactos: true,
             actividades: false
         };
+
         vm.verProspectos = {
             prospectos: true,
             actividades: false
         };
 
-        console.log("OK -> entro a TodoController");
 
-
-        vm.logout = function () {
-            Auth.logout();
-            $window.reload();
-        }
-
-        vm.abriendoCalendar = function () {
-            $('body').removeAttr('style');
-        }
-
-
-
-        vm.mensajesPreEstablecidos = [{
-            "id": 1,
-            "descrip": "AGENDADO"
-        }, {
-            "id": 2,
-            "descrip": "ATENDIDO POR OTRO EJECUTIVO/ASESOR"
-        }, {
-            "id": 3,
-            "descrip": "CERRADO EN AFP"
-        }, {
-            "id": 4,
-            "descrip": "CERRADO EN OTRA CIA"
-        }, {
-            "id": 5,
-            "descrip": "CIERRE TRAMITE CNL"
-        }, {
-            "id": 6,
-            "descrip": "CIERRE TRAMITE CNS"
-        }, {
-            "id": 7,
-            "descrip": "CLIENTE NO UBICABLE"
-        }, {
-            "id": 8,
-            "descrip": "CLIENTE REFERIDO REPETIDO"
-        }, {
-            "id": 9,
-            "descrip": "ESTUDIO PENSIÓN"
-        }, {
-            "id": 10,
-            "descrip": "ESTUDIO PENSIÓN ANTICIPADA"
-        }, {
-            "id": 11,
-            "descrip": "INICIA TRÁMITE"
-        }, {
-            "id": 12,
-            "descrip": "NO APLICA"
-        }, {
-            "id": 13,
-            "descrip": "NO CUMPLE REQUISITO EDAD"
-        }, {
-            "id": 14,
-            "descrip": "NO CUMPLE REQUISITO PRIMA"
-        }, {
-            "id": 15,
-            "descrip": "NO ESTA INTERESADO"
-        }, {
-            "id": 16,
-            "descrip": "OFERTA EXTERNA"
-        }, {
-            "id": 17,
-            "descrip": "POSTERGADO"
-        }, {
-            "id": 18,
-            "descrip": "REQUERIMIENTO POST VENTA"
-        }, {
-            "id": 19,
-            "descrip": "REQUIERE INFORMACIÓN"
-        }, {
-            "id": 20,
-            "descrip": "SOLICITA INFORMACIÓN POR CORREO"
-        }, {
-            "id": 21,
-            "descrip": "SOLICITA NUEVA LLAMADA"
-        }, {
-            "id": 22,
-            "descrip": "SOLICITUD OTROS PRODUCTOS"
-        }, {
-            "id": 23,
-            "descrip": "TELÉFONO ERRÓNEO"
-        }, {
-            "id": 24,
-            "descrip": "TRÁMITE INVALIDEZ"
-        }, {
-            "id": 25,
-            "descrip": "PENSIONADO"
-        }, {
-            "id": 26,
-            "descrip": "CLIENTE FUTURO"
-        }, {
-            "id": 30,
-            "descrip": "OTROS"
-        }];
-
-
-        vm.mostrarTodo = function () {
-            vm.mesAnioFiltroGraph = null;
-            vm.anioParamUrlDataTable = 'undefined';
-            vm.mesParamUrlDataTable = 'undefined';
-            vm.actualizarGraficoPorFecha();
-        }
-
-        vm.mostrarTodoSucursalesPanel = function () {
-
-            vm.sucursalesSelectFiltroPanel = 'undefined';
-            vm.actualizarGraficoPorSucursal();
-        }
+        // *** igue
 
         vm.mostrarTodoEjecutivosPanel = function () {
 
@@ -3289,935 +3235,1348 @@ angular
                 });
         }
 
-        //aqui quede
+
+// Actualiza una referencia asignándole nueva fecha/hora de acción
+vm.updateReferenciaReagendar = function (res, fecha, hora) {
+    // Construye la fecha completa a partir de fecha + hora
+    res.fechaAccion = new Date(fecha + " " + hora);
+
+    // Ejecuta update vía $resource
+    res.$update({},
+        function (res) {
+            // Éxito: notifica y recarga actividades
+            toastr.success("Referencia actualizada con exito.", "Ok")
+            vm.listarActividades();
+        },
+        function (err) {
+            // Error: desactiva loading y muestra mensaje
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al actualizar Referencia", " " + err.status + " " + err.statusText)
+        });
+}
 
 
-        vm.updateReferenciaReagendar = function (res, fecha, hora) {
-            // debugger
-            res.fechaAccion = new Date(fecha + " " + hora);
+// Carga una referencia por ID antes de actualizarla (flujo previo a reagendar)
+vm.loadReferencia2Update = function (res, fecha, hora) {
 
-            res.$update({},
-                function (res) {
-                    toastr.success("Referencia actualizada con exito.", "Ok")
-                    vm.listarActividades();
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al actualizar Referencia", " " + err.status + " " + err.statusText)
+    Referencias.get({
+        "id": res.referenciaId.id
+    },
+        function (res) {
+            // Una vez cargada, llama al update
+            vm.updateReferenciaReagendar(res, fecha, hora);
+        },
+        function (err) {
+            // Error al obtener referencia
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al cargar lista de actividades.", " " + err.status + " " + err.statusText)
+        });
+}
 
-                });
+
+// Actualiza una bitácora y luego dispara actualización de referencia
+vm.updateBitacora = function (res, fecha, hora) {
+
+    res.$update({},
+        function (res) {
+            // Éxito: notifica y encadena actualización de referencia
+            toastr.success("Bitacora actualizada con exito.", "Ok")
+            vm.loadReferencia2Update(res, fecha, hora);
+        },
+        function (err) {
+            // Error al actualizar bitácora
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al actualizar Bitacora", " " + err.status + " " + err.statusText)
+        });
+}
+
+
+// Guarda en memoria la bitácora seleccionada para edición posterior
+vm.fijarBitacora2Cambio = function (bit) {
+    vm.bit = bit;
+}
+
+
+// Carga una referencia antes de limpiar comentarios asociados
+vm.loadReferencia2DeleteComentarios = function (id) {
+
+    Referencias.get({
+        "id": id
+    },
+        function (res) {
+            // Llama a función que elimina/limpia comentarios
+            vm.updateReferenciaDeleteComentarios(res);
+        },
+        function (err) {
+            // Error al obtener referencia
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al cargar lista de actividades.", " " + err.status + " " + err.statusText)
+        });
+}
+
+
+// Limpia campo de término de referencia (comentarios asociados)
+vm.updateReferenciaDeleteComentarios = function (res) {
+
+    // Se limpia la fecha de término
+    res.fechaterminoe = null;
+
+    res.$update({},
+        function (res) {
+            // Éxito: recarga actividades
+            toastr.success("Referencia actualizada con exito.", "Ok")
+            vm.listarActividades();
+        },
+        function (err) {
+            // Error al actualizar
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al actualizar Referencia", " " + err.status + " " + err.statusText)
+        });
+}
+
+
+// Elimina una bitácora previa confirmación del usuario
+vm.eliminarComentario = function (bit) {
+
+    // Confirmación simple
+    var isConfirmed = confirm("Desea eliminar el comentario ?");
+    if (!isConfirmed) {
+        return;
+    }
+
+    // Llamada DELETE al backend
+    Bitacoras.delete({
+        "id": bit.id
+    },
+        function (res) {
+            // Éxito: recarga referencia asociada
+            toastr.success("Bitacora eliminada con exito.", "Ok")
+            vm.loadReferencia2DeleteComentarios(bit.referenciaId.id);
+        },
+        function (err) {
+            // Error al eliminar
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al eliminar la bitacora.", " " + err.status + " " + err.statusText)
+        });
+}
+
+
+// Edita una bitácora agregando mensaje de reagendamiento
+vm.editarBitacora = function (fecha, hora) {
+
+    Bitacoras.get({
+        "id": vm.bit.id
+    },
+        function (res) {
+            // Construye comentario automático de reagendamiento
+            console.log("Obteniendo ..." + JSON.stringify(res));
+            res.comentarios = "REAGENDAR -> Actividad reagendada para : " + fecha + " " + hora;
+
+            // Actualiza bitácora y encadena lógica
+            vm.updateBitacora(res, fecha, hora);
+        },
+        function (err) {
+            // Error al obtener bitácora
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al cargar la bitacora.", " " + err.status + " " + err.statusText)
+        });
+}
+
+
+// Cierra actividad sin éxito validando comentario obligatorio
+vm.cerrarSinExito = function () {
+
+    if (!vm.messageActividad.comentarios) {
+        toastr.error("Debe especificar un comentario.", " ")
+        return;
+    }
+
+    // Flag de estado
+    vm.cerrarSinExitoFlag = true;
+
+    // Prefijo de comentario
+    vm.messageActividad.comentarios = "SIN EXITO -> " + vm.messageActividad.comentarios;
+
+    // Envía actividad
+    vm.enviarActividad(1);
+}
+
+
+// Cierra actividad con éxito validando comentario obligatorio
+vm.cerrarConExito = function () {
+
+    if (!vm.messageActividad.comentarios) {
+        toastr.error("Debe especificar un comentario.", " ")
+        return;
+    }
+
+    vm.cerrarConExitoFlag = true;
+    vm.messageActividad.comentarios = "VENTA EXITOSA -> " + vm.messageActividad.comentarios;
+
+    vm.enviarActividad(1);
+}
+
+
+// Cierre que requiere envío de correo al cliente
+vm.cerrarMail2Cliente = function () {
+
+    if (!vm.mailCliente2Send) {
+        toastr.error("Debe debe especificar un correo electronico.", " ")
+        return;
+    }
+
+    // Genera comentario automático con correo
+    vm.messageActividad.comentarios = "Actividad cerrada, se debe enviar un mail al cliente  al correo -> " + vm.mailCliente2Send;
+
+    vm.enviarActividad(1);
+}
+
+
+// Cierre con derivación a otro ejecutivo
+vm.cerrarDerivar = function () {
+
+    if (!vm.ejecutivosSelect) {
+        toastr.error("Debe debe selecciona un ejecutivo a derivar.", " ")
+        return;
+    }
+
+    // =========================
+// DERIVAR REFERENCIA
+// =========================
+vm.derivarReferencia = function () {
+
+    // Validaciones defensivas
+    if (!vm.ejecutivosSelect || !vm.referenciaSeleccionada) {
+        toastr.error("Datos incompletos para derivar.");
+        return;
+    }
+
+    // Parse seguro
+    if (typeof vm.ejecutivosSelect === 'string') {
+        vm.ejecutivosSelect = JSON.parse(vm.ejecutivosSelect);
+    }
+
+    const comentario = `DERIVAR -> Actividad Derivada a ejecutivo : ${vm.ejecutivosSelect.nombre}, sucursal : ${vm.ejecutivosSelect.sucursalId.nombre}`;
+
+    vm.messageActividad.comentarios = comentario;
+
+    vm.derivarMasivoList = [new Referencias({
+        "IDEJECUTIVO": vm.ejecutivosSelect.id,
+        "ID": vm.referenciaSeleccionada.id,
+        "USUARIO": vm.usuario,
+        "COMENTARIOS": comentario
+    })];
+
+    $http({
+        url: '/referidosrrvv/webresources/cl.cnsv.referidosrrvv.models.referencias/derivarmasivolist',
+        method: "POST",
+        data: vm.derivarMasivoList,
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    }).then(function () {
+        toastr.success("Referencia derivada con éxito.", "Ok");
+        vm.listarActividades();
+        vm.actualizarReferidoStatus();
+    }, function (err) {
+        vm.mostrarLoading = false;
+        toastr.error(`Error al derivar (${err.status} ${err.statusText})`);
+    });
+};
+
+
+// =========================
+// HELPERS
+// =========================
+function refreshPanel(noRunPanel) {
+    if (noRunPanel === undefined) {
+        vm.cargarPanel();
+    }
+    $("#datatableReferidos").DataTable().draw();
+}
+
+
+// =========================
+// FILTROS
+// =========================
+vm.actualizarGraficoPorSucursal = function (noRunPanel) {
+
+    if (vm.sucursalesSelectFiltroPanel !== undefined && vm.sucursalesSelectFiltroPanel !== null) {
+        const sucursal = JSON.parse(vm.sucursalesSelectFiltroPanel);
+        vm.sucursalesSelectFiltroPanel2 = `'${sucursal.id}'`;
+    } else {
+        vm.sucursalesSelectFiltroPanel2 = "undefined";
+    }
+
+    refreshPanel(noRunPanel);
+};
+
+vm.actualizarGraficoPorEjecutivo = function (noRunPanel) {
+
+    if (vm.ejecutivosSelectFiltroPanel !== undefined && vm.ejecutivosSelectFiltroPanel !== null) {
+        const ejecutivo = JSON.parse(vm.ejecutivosSelectFiltroPanel);
+        vm.usuarioSupervisaA2String = `'${ejecutivo.codigo}'`;
+    } else {
+        vm.usuarioSupervisaA2String = undefined;
+    }
+
+    refreshPanel(noRunPanel);
+};
+
+vm.actualizarGraficoPorFecha = function (noRunPanel) {
+
+    if (vm.mesAnioFiltroGraph) {
+        const parts = vm.mesAnioFiltroGraph.split('-');
+        vm.anioParamUrlDataTable = parts[0] || "undefined";
+        vm.mesParamUrlDataTable = (parts.length > 1 && parts[1]) ? parts[1] : "undefined";
+    } else {
+        vm.anioParamUrlDataTable = "undefined";
+        vm.mesParamUrlDataTable = "undefined";
+    }
+
+    refreshPanel(noRunPanel);
+};
+
+
+// =========================
+// CAPTURA DE DATOS
+// =========================
+vm.enviarCapturarFechaReagendar = function (v) {
+    vm.fechaReagendar = v;
+};
+
+vm.enviarCapturarMesAnioFiltroGraph = function (v) {
+    vm.mesAnioFiltroGraph = v;
+};
+
+vm.enviarCapturarFechaNac = function (v) {
+    vm.fechaNac = v;
+};
+
+
+// =========================
+// REAGENDAR
+// =========================
+vm.reagendar = function (hora) {
+
+    if (!vm.fechaReagendar || !hora) {
+        toastr.error("Fecha u hora inválida.");
+        return;
+    }
+
+    vm.hora = hora;
+    vm.fechaHoraReagendar = new Date(`${vm.fechaReagendar}T${vm.hora}`);
+
+    vm.messageActividad.comentarios =
+        `REAGENDAR -> Actividad reagendada para : ${vm.fechaReagendar} ${vm.hora}`;
+
+    vm.enviarActividad(1);
+};
+
+vm.reagendar_reagendar = function (hora) {
+    vm.hora = hora;
+    vm.editarBitacora(vm.fechaReagendar, vm.hora);
+};
+
+
+// =========================
+// ENVIAR ACTIVIDAD
+// =========================
+vm.enviarActividad = function (dejarComent) {
+
+    if (!vm.messageActividad.comentarios) {
+        toastr.error("Debe ingresar al menos un comentario.");
+        return;
+    }
+
+    vm.messageActividad.version = "1";
+    vm.messageActividad.fecha = new Date();
+    vm.messageActividad.referenciaId = vm.referenciaSeleccionada;
+    vm.messageActividad.usuario = vm.usuario;
+
+    if (dejarComent === undefined) {
+        vm.messageActividad.comentarios =
+            "DEJAR COMENTARIO -> " + vm.messageActividad.comentarios;
+    }
+
+    vm.bitacora = new Bitacoras(vm.messageActividad);
+
+    // Normalizaciones seguras
+    if (vm.bitacora.referenciaId) {
+        vm.bitacora.referenciaId.prioritario = !!vm.bitacora.referenciaId.prioritario;
+
+        if (vm.bitacora.referenciaId.referidoId) {
+            vm.bitacora.referenciaId.referidoId.afp =
+                vm.bitacora.referenciaId.referidoId.afp || '';
+
+            vm.bitacora.referenciaId.referidoId.prima =
+                vm.bitacora.referenciaId.referidoId.prima || '';
+        }
+    }
+
+    vm.bitacora.$save({},
+        function () {
+            toastr.success("Actividad actualizada con éxito.", "Ok");
+            vm.listarActividades();
+            vm.actualizarReferidoStatus();
+        },
+        function (err) {
+            vm.mostrarLoading = false;
+            toastr.error(`Error al actualizar (${err.status} ${err.statusText})`);
+        }
+    );
+};
+
+
+// =========================
+// LISTAR REAGENDADOS
+// =========================
+vm.listarReferenciasReagendadasTodoEje = function () {
+
+    ReferenciasReagendadas.list({
+        "id": vm.losAsistentesBuscaranInfPor,
+        "tipo": "2"
+    }, function (res) {
+
+        vm.ahora = new Date();
+        vm.ReferenciasReagendadasTodoEje = res;
+
+    }, function (err) {
+        vm.mostrarLoading = false;
+        toastr.error(`Error al cargar (${err.status} ${err.statusText})`);
+    });
+};
+
+
+// ==============================
+// Listar referencias reagendadas (filtrado)
+// ==============================
+vm.listarReferenciasReagendadas = function () {
+
+    vm.mostrarLoading = true; // Activar loading al iniciar petición
+
+    ReferenciasReagendadas.list({
+        id: vm.losAsistentesBuscaranInfPor,
+        tipo: "1"
+    }, function (res) {
+
+        vm.ahora = new Date();
+
+        // Validación defensiva: asegurar que siempre sea arreglo
+        vm.ReferenciasReagendadas = Array.isArray(res) ? res : [];
+
+        // Llamada a proceso adicional
+        vm.listarReferenciasReagendadasTodoEje();
+
+        // Si hay datos, mostrar aviso
+        if (vm.ReferenciasReagendadas.length > 0) {
+            vm.cargarAviso();
         }
 
-        vm.loadReferencia2Update = function (res, fecha, hora) {
-            // debugger
-            Referencias.get({
-                "id": res.referenciaId.id
-            },
-                function (res) {
-                    vm.updateReferenciaReagendar(res, fecha, hora);
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al cargar lista de actividades.", " " + err.status + " " + err.statusText)
+        vm.mostrarLoading = false; // Finaliza loading
 
-                    //console.log(" ** Bitacoras Err ->");
-                    //console.log(err);
+    }, function (err) {
 
-                });
+        vm.mostrarLoading = false;
+
+        toastr.error(
+            "Ha ocurrido un problema al cargar las referencias reagendadas.",
+            err.status + " " + err.statusText
+        );
+
+        console.error("Error listarReferenciasReagendadas:", err);
+    });
+};
+
+
+// ==============================
+// Listar referencias reagendadas FULL
+// ==============================
+vm.listarReferenciasReagendadasFull = function () {
+
+    vm.mostrarLoading = true;
+
+    ReferenciasReagendadasFull.list({
+        id: vm.usuario
+    }, function (res) {
+
+        vm.ahora = new Date();
+
+        // Validación defensiva
+        vm.ReferenciasReagendadas = Array.isArray(res) ? res : [];
+
+        // Activar tabla solo si hay datos
+        if (vm.ReferenciasReagendadas.length > 0) {
+            vm.activarTabla();
         }
 
-        vm.updateBitacora = function (res, fecha, hora) {
-            // debugger
-            res.$update({},
-                function (res) {
-                    toastr.success("Bitacora actualizada con exito.", "Ok")
-                    vm.loadReferencia2Update(res, fecha, hora);
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al actualizar Bitacora", " " + err.status + " " + err.statusText)
-                });
-        }
-
-        vm.fijarBitacora2Cambio = function (bit) {
-            vm.bit = bit;
-        }
-
-        vm.loadReferencia2DeleteComentarios = function (id) {
-            // debugger
-            Referencias.get({
-                "id": id
-            },
-                function (res) {
-                    vm.updateReferenciaDeleteComentarios(res);
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al cargar lista de actividades.", " " + err.status + " " + err.statusText)
-
-                    //console.log(" ** Bitacoras Err ->");
-                    //console.log(err);
-
-                });
-        }
-
-
-        vm.updateReferenciaDeleteComentarios = function (res) {
-            // alert(JSON.stringify(res))
-            // debugger
-            res.fechaterminoe = null;
-
-            res.$update({},
-                function (res) {
-                    toastr.success("Referencia actualizada con exito.", "Ok")
-                    vm.listarActividades();
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al actualizar Referencia", " " + err.status + " " + err.statusText)
-
-                });
-        }
-
-        vm.eliminarComentario = function (bit) {
-            // alert(JSON.stringify(bit));
-
-            var isConfirmed = confirm("Desea eliminar el comentario ?");
-            if (!isConfirmed) {
-                return;
-            }
-
-            Bitacoras.delete({
-                "id": bit.id
-            },
-                function (res) {
-                    toastr.success("Bitacora eliminada con exito.", "Ok")
-                    vm.loadReferencia2DeleteComentarios(bit.referenciaId.id);
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al eliminar la bitacora.", " " + err.status + " " + err.statusText)
-                });
-
-        }
-
-        vm.editarBitacora = function (fecha, hora) {
-            // debugger
-            Bitacoras.get({
-                "id": vm.bit.id
-            },
-                function (res) {
-                    console.log("Obteniendo ..." + JSON.stringify(res));
-                    res.comentarios = "REAGENDAR -> Actividad reagendada para : " + fecha + " " + hora;
-                    vm.updateBitacora(res, fecha, hora);
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al cargar la bitacora.", " " + err.status + " " + err.statusText)
-                });
-
-
-
-        }
-
-
-        vm.cerrarSinExito = function () {
+        vm.mostrarLoading = false;
 
-            if (!vm.messageActividad.comentarios) {
-                toastr.error("Debe especificar un comentario.", " ")
-                return;
-            }
+    }, function (err) {
 
-            vm.cerrarSinExitoFlag = true;
-            vm.messageActividad.comentarios = "SIN EXITO -> " + vm.messageActividad.comentarios;
-            vm.enviarActividad(1);
+        vm.mostrarLoading = false;
 
-        }
+        toastr.error(
+            "Ha ocurrido un problema al cargar las referencias reagendadas.",
+            err.status + " " + err.statusText
+        );
 
-        vm.cerrarConExito = function () {
+        console.error("Error listarReferenciasReagendadasFull:", err);
+    });
+};
 
-            if (!vm.messageActividad.comentarios) {
-                toastr.error("Debe especificar un comentario.", " ")
-                return;
-            }
 
-            vm.cerrarConExitoFlag = true;
-            vm.messageActividad.comentarios = "VENTA EXITOSA -> " + vm.messageActividad.comentarios;
-            vm.enviarActividad(1);
+// ==============================
+// Listar referencias no cerradas (finalizadas)
+// ==============================
+vm.listarReferenciasNoCerradasFinalizadas = function () {
 
-        }
+    vm.mostrarLoading = true;
 
-        vm.cerrarMail2Cliente = function () {
+    ReferenciasNoCerradas.list({
+        id: vm.usuario,
+        tipo: "2"
+    }, function (res) {
 
-            if (!vm.mailCliente2Send) {
-                toastr.error("Debe debe especificar un correo electronico.", " ")
-                return;
+        // Validación defensiva
+        vm.ReferenciasCerradas = Array.isArray(res) ? res : [];
 
-            }
+        vm.mostrarLoading = false;
 
-            vm.messageActividad.comentarios = "Actividad cerrada, se debe enviar un mail al cliente  al correo -> " + vm.mailCliente2Send;
-            vm.enviarActividad(1);
+    }, function (err) {
 
-        }
+        vm.mostrarLoading = false;
 
-        vm.cerrarDerivar = function () {
+        toastr.error(
+            "Ha ocurrido un problema al cargar las referencias Finalizadas.",
+            err.status + " " + err.statusText
+        );
 
-            if (!vm.ejecutivosSelect) {
-                toastr.error("Debe debe selecciona un ejecutivo a derivar.", " ")
-                return;
+        console.error("Error listarReferenciasNoCerradasFinalizadas:", err);
+    });
+};
 
-            }
 
-            vm.ejecutivosSelect = JSON.parse(vm.ejecutivosSelect);
-            vm.messageActividad.comentarios = "DERIVAR -> Actividad Derivada a ejecutivo : " + vm.ejecutivosSelect.nombre + ", sucursal : " + vm.ejecutivosSelect.sucursalId.nombre;
-            // vm.enviarActividad(1);
-            vm.derivarMasivoList = [];
+// ==============================
+// Mostrar aviso de referencias pendientes
+// ==============================
+vm.cargarAviso = function () {
 
-            vm.derivarMasivoList.push(new Referencias({
-                "IDEJECUTIVO": vm.ejecutivosSelect.id,
-                "ID": vm.referenciaSeleccionada.id,
-                "USUARIO": vm.usuario,
-                "COMENTARIOS": "DERIVAR -> Actividad Derivada a ejecutivo : " + vm.ejecutivosSelect.nombre + ", sucursal : " + vm.ejecutivosSelect.sucursalId.nombre
-            }));
-			//console.log("deriva 2");
-                        //console.log(JSON.stringify(vm.derivarMasivoList));
+    // SweetAlert de advertencia
+    swal({
+        icon: 'warning',
+        title: 'Atención',
+        text: 'Se han encontrado referencias reagendadas pendientes.',
+        dangerMode: true
+    });
 
+    vm.mostrarLoading = false;
+};
 
-            $http({
-                url: '/referidosrrvv/webresources/cl.cnsv.referidosrrvv.models.referencias/derivarmasivolist',
-                method: "POST",
-                data: vm.derivarMasivoList,
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                }
-            }).then(function (res) {
-                toastr.success("Referencia derivadas con exito.", "Ok")
-                vm.listarActividades();
-                vm.actualizarReferidoStatus();
 
+// =============================
+// LISTAR REFERENCIAS NO CERRADAS (TODAS - EJECUTIVO)
+// =============================
+vm.listarReferenciasNoCerradasTodasEje = function () {
 
-            }, function (err) {
-                vm.mostrarLoading = false;
-                toastr.error("Ha ocurrido un problema al derivar la referencia.", " " + err.status + " " + err.statusText)
+    ReferenciasNoCerradas.list({
+        "id": vm.losAsistentesBuscaranInfPor,
+        "tipo": "4" // Tipo 4: Todas las referencias no cerradas
+    }, function (res) {
 
+        // Asignación de resultados
+        vm.ReferenciasTodoEje = res;
 
-            });
+        // Generación de campo auxiliar para búsquedas (cLike)
+        angular.forEach(vm.ReferenciasTodoEje, function (v) {
+            v.cLike = v.referidoId.nombre + " " +
+                $filter('date')(v.fecha, 'MMM d, yyyy') + " " +
+                v.canalname + " " +
+                v.accionId.nombre;
+        });
 
+        // Fin de carga
+        vm.loadingRecords = false;
 
-        }
+    }, function (err) {
 
-        vm.actualizarGraficoPorSucursal = function (noRunPanel) {
+        // Manejo de error
+        vm.mostrarLoading = false;
 
-            if (vm.sucursalesSelectFiltroPanel != "undefined") {
-                vm.sucursalesSelectFiltroPanel2 = "'" + JSON.parse(vm.sucursalesSelectFiltroPanel).id + "'";
-            } else {
-                vm.sucursalesSelectFiltroPanel2 = "undefined";
+        toastr.error(
+            "Ha ocurrido un problema al cargar las referencias Todo para la ejecutiva.",
+            " " + err.status + " " + err.statusText
+        );
+    });
+};
 
-            }
 
-            if (noRunPanel == undefined) {
-                vm.cargarPanel();
-            }
-            $("#datatableReferidos").DataTable().draw();
+// =============================
+// LISTAR REFERENCIAS SIN ÉXITO
+// =============================
+vm.listarReferenciasNoCerradasSinExito = function () {
 
-        }
+    ReferenciasNoCerradas.list({
+        "id": vm.usuario,
+        "tipo": "3" // Tipo 3: Sin éxito
+    }, function (res) {
 
-        vm.actualizarGraficoPorEjecutivo = function (noRunPanel) {
-            if (vm.ejecutivosSelectFiltroPanel != undefined) {
-                vm.usuarioSupervisaA2String = "'" + JSON.parse(vm.ejecutivosSelectFiltroPanel).codigo + "'";
-            } else {
-                vm.usuarioSupervisaA2String = undefined;
+        vm.ReferenciasSinExito = res;
+        vm.loadingRecords = false;
 
-            }
-            if (noRunPanel == undefined) {
-                vm.cargarPanel();
-            }
+    }, function (err) {
 
+        vm.mostrarLoading = false;
 
-            $("#datatableReferidos").DataTable().draw();
+        toastr.error(
+            "Ha ocurrido un problema al cargar las referencias sin exito.",
+            " " + err.status + " " + err.statusText
+        );
+    });
+};
 
-        }
 
-        vm.actualizarGraficoPorFecha = function (noRunPanel) {
-            vm.anioParamUrlDataTable = (vm.mesAnioFiltroGraph != null && vm.mesAnioFiltroGraph != "") ? vm.mesAnioFiltroGraph.split('-')[0] : "undefined";
+// =============================
+// LISTAR REFERENCIAS PENDIENTES
+// =============================
+vm.listarReferenciasNoCerradasPendiente = function () {
 
+    ReferenciasNoCerradas.list({
+        "id": vm.losAsistentesBuscaranInfPor,
+        "tipo": "1" // Tipo 1: Pendientes
+    }, function (res) {
 
+        vm.ReferenciasNoCerradas = res;
 
-            if (vm.mesAnioFiltroGraph != null && vm.mesAnioFiltroGraph != "" && vm.mesAnioFiltroGraph.split('-')[1] == undefined) {
-                vm.mesParamUrlDataTable = "undefined";
-            } else {
-                vm.mesParamUrlDataTable = (vm.mesAnioFiltroGraph != null && vm.mesAnioFiltroGraph != "") ? vm.mesAnioFiltroGraph.split('-')[1] : "undefined";
+        // Procesamiento de datos
+        angular.forEach(vm.ReferenciasNoCerradas, function (v) {
 
-            }
+            // Orden lógico: prioridad para acción ID 5
+            v.ordenEstado = (v.accionId.id == 5) ? 1 : 2;
 
+            // Campo auxiliar de búsqueda
+            v.cLike = v.referidoId.nombre + " " +
+                $filter('date')(v.fecha, 'MMM d, yyyy') + " " +
+                v.canalname + " " +
+                v.accionId.nombre;
+        });
 
-            if (noRunPanel == undefined) {
-                vm.cargarPanel();
-            }
-            $("#datatableReferidos").DataTable().draw();
+        // Ordenar por estado
+        vm.ReferenciasNoCerradas = $filter('orderBy')(vm.ReferenciasNoCerradas, ['ordenEstado']);
 
-        }
+        // Llamada encadenada
+        vm.listarReferenciasReagendadas();
 
-        $scope.enviarCapturarFechaReagendar = function (v) {
-            vm.fechaReagendar = v;
-        }
+    }, function (err) {
 
-        $scope.enviarCapturarMesAnioFiltroGraph = function (v) {
-            vm.mesAnioFiltroGraph = v;
-        }
+        vm.mostrarLoading = false;
 
-        $scope.enviarCapturarFechaNac = function (v) {
-            vm.fechaNac = v;
-        }
+        toastr.error(
+            "Ha ocurrido un problema al cargar las referencias pendientes.",
+            " " + err.status + " " + err.statusText
+        );
+    });
+};
 
-        $scope.reagendar = function (v) {
-            vm.hora = v;
-            vm.fechaHoraReagendar = new Date(vm.fechaReagendar + ' ' + vm.hora);
-            vm.messageActividad.comentarios = "REAGENDAR -> Actividad reagendada para : " + vm.fechaReagendar + ' ' + vm.hora;
-            vm.enviarActividad(1);
-        }
 
-        $scope.reagendar_reagendar = function (v) {
-            // debugger
-            vm.hora = v;
-            vm.editarBitacora(vm.fechaReagendar, vm.hora);
-        }
+// =============================
+// DESBLOQUEAR REFERENCIA
+// =============================
+vm.desbloquearReferencia = function () {
 
-        vm.medirTam = function () {
+    // Reset de bloqueo
+    vm.referenciaSeleccionada.blockedbycall = 0;
+    vm.referenciaSeleccionada.fechablockedbycall = null;
 
+    // Instancia para actualización
+    vm.referencias = new Referencias(vm.referenciaSeleccionada);
 
+    vm.referencias.$update({},
+        function () {
+            // Éxito silencioso (sin notificación)
+        },
+        function (err) {
 
-        }
-
-
-
-        vm.enviarActividad = function (dejarComent) {
-
-            vm.messageActividad.version = "1";
-            vm.messageActividad.fecha = new Date();
-            vm.messageActividad.referenciaId = vm.referenciaSeleccionada;
-            vm.messageActividad.usuario = vm.usuario;
-
-            if (!vm.messageActividad.comentarios) {
-                toastr.error("Debe ingresar al menos un comentario.", " ")
-                return;
-
-            }
-
-            if (dejarComent == undefined) {
-                vm.messageActividad.comentarios = "DEJAR COMENTARIO -> " + vm.messageActividad.comentarios;
-
-            }
-
-            vm.bitacora = new Bitacoras(vm.messageActividad);
-
-            //            console.log(JSON.stringify(vm.bitacora));
-
-            vm.bitacora.referenciaId.prioritario = (vm.bitacora.referenciaId.prioritario) ? true : false;
-            vm.bitacora.referenciaId.referidoId.afp = (vm.bitacora.referenciaId.referidoId.afp) ? vm.bitacora.referenciaId.referidoId.afp : '';
-            vm.bitacora.referenciaId.referidoId.prima = (vm.bitacora.referenciaId.referidoId.prima) ? vm.bitacora.referenciaId.referidoId.prima : '';
-
-            vm.bitacora.$save({},
-                function (res) {
-
-                    toastr.success("Actividad actualizada con exito.", "Ok")
-
-
-                    //console.log(" ** messageActividad Ok ->");
-                    //console.log(res);
-                    vm.listarActividades();
-                    vm.actualizarReferidoStatus();
-
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al actualizar la actividad.", " " + err.status + " " + err.statusText)
-
-                    //console.log(" ** messageActividad Err ->");
-                    //console.log(err);
-
-                });
-
-
-
-        }
-
-        vm.listarReferenciasReagendadasTodoEje = function () {
-
-
-            ReferenciasReagendadas.list({
-                "id": vm.losAsistentesBuscaranInfPor,
-                "tipo": "2"
-            }, function (res) {
-
-                //console.log(" ** ReferenciasReagendadas Ok ->");
-                //console.log(res);
-                // 
-
-                vm.ahora = new Date();
-                vm.ReferenciasReagendadasTodoEje = res;
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-
-                toastr.error("Ha ocurrido un problema al cargar las referencias reagendadas todo ejecutiva.", " " + err.status + " " + err.statusText)
-
-                //console.log(" ** ReferenciasReagendadas Err ->");
-                //console.log(err);
-
-            });
-        }
-
-        vm.listarReferenciasReagendadas = function () {
-            ReferenciasReagendadas.list({
-                "id": vm.losAsistentesBuscaranInfPor,
-                "tipo": "1"
-            }, function (res) {
-
-                //console.log(" ** ReferenciasReagendadas Ok ->");
-                //console.log(res);
-                // 
-
-                vm.ahora = new Date();
-                vm.ReferenciasReagendadas = res;
-                vm.listarReferenciasReagendadasTodoEje();
-
-                // var fecha = $filter('date')(vm.ReferenciasReagendadas[0].fechaAccion, 'yyyy-MM-dd');
-                // var hoy = $filter('date')(new Date(), 'yyyy-MM-dd');
-
-                if (vm.ReferenciasReagendadas.length > 0) {
-                    vm.cargarAviso();
-
-                }
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-
-                toastr.error("Ha ocurrido un problema al cargar las referencias reagendadas.", " " + err.status + " " + err.statusText)
-
-                //console.log(" ** ReferenciasReagendadas Err ->");
-                //console.log(err);
-
-            });
-        }
-
-        vm.listarReferenciasReagendadasFull = function () {
-            ReferenciasReagendadasFull.list({
-                "id": vm.usuario
-            }, function (res) {
-
-                //console.log(" ** ReferenciasReagendadas Ok ->");
-                //console.log(res);
-                // 
-                vm.ahora = new Date();
-                vm.ReferenciasReagendadas = res;
-                vm.activarTabla();
-                //debugger
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-                toastr.error("Ha ocurrido un problema al cargar las referencias reagendadas.", " " + err.status + " " + err.statusText)
-
-                //console.log(" ** ReferenciasReagendadas Err ->");
-                //console.log(err);
-
-            });
-        }
-
-        vm.listarReferenciasNoCerradasFinalizadas = function () {
-            ReferenciasNoCerradas.list({
-                "id": vm.usuario,
-                "tipo": "2"
-            }, function (res) {
-
-
-                //console.log(" ** ReferenciasNoCerradas Ok ->");
-                //console.log(res);
-
-                vm.ReferenciasCerradas = res;
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-                //console.log(" ** ReferenciasNoCerradas Err ->");
-                //console.log(err);
-
-                toastr.error("Ha ocurrido un problema al cargar las referencias Finalizadas.", " " + err.status + " " + err.statusText)
-
-
-            });
-        }
-
-
-        vm.cargarAviso = function () {
-            swal("Are you sure?", {
-                icon: 'warning',
-                title: 'Atencion',
-                text: 'Se han encontrado referencias reagendadas pendientes.',
-                dangerMode: true,
-            });
             vm.mostrarLoading = false;
 
+            toastr.error(
+                "Ha ocurrido un problema al desbloquear las referencias.",
+                " " + err.status + " " + err.statusText
+            );
         }
+    );
+};
 
 
+// =============================
+// VERIFICAR BLOQUEO
+// =============================
+vm.verificarBloqueo = function (c, deDondeVengo) {
 
-        vm.listarReferenciasNoCerradasTodasEje = function () {
+    // Determina el ID dependiendo del rol
+    var param = {
+        "id": (vm.rollUsuario == 'adm' || vm.rollUsuario == 'sup') ? c : c.id
+    };
 
-            ReferenciasNoCerradas.list({
-                "id": vm.losAsistentesBuscaranInfPor,
-                "tipo": "4"
-            }, function (res) {
+    Referencias.list(param,
+        function (res) {
 
-                // console.log(res)
-                // alert(JSON.stringify(res));
+            // Mostrar actividades/contactos asociados
+            vm.mostrarActividadesContactos(res);
 
+        },
+        function (err) {
 
-                //console.log(" ** ReferenciasNoCerradas Ok ->");
-                //console.log(res);
-
-                vm.ReferenciasTodoEje = res;
-
-                angular.forEach(vm.ReferenciasTodoEje, function (v) {
-                    v.cLike = v.referidoId.nombre + " " + $filter('date')(v.fecha, 'MMM d, yyyy') + " " + v.canalname + " " + v.accionId.nombre;
-                });
-
-                vm.loadingRecords = false;
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-                //console.log(" ** ReferenciasNoCerradas Err ->");
-                //console.log(err);
-
-                toastr.error("Ha ocurrido un problema al cargar las referencias Todo para la ejecutiva.", " " + err.status + " " + err.statusText)
-
-
-            });
-
-
-        }
-
-
-        vm.listarReferenciasNoCerradasSinExito = function () {
-            ReferenciasNoCerradas.list({
-                "id": vm.usuario,
-                "tipo": "3"
-            }, function (res) {
-
-                //console.log(" ** ReferenciasNoCerradas Ok ->");
-                //console.log(res);
-
-                vm.ReferenciasSinExito = res;
-                vm.loadingRecords = false;
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-                //console.log(" ** ReferenciasNoCerradas Err ->");
-                //console.log(err);
-
-                toastr.error("Ha ocurrido un problema al cargar las referencias sin exito.", " " + err.status + " " + err.statusText)
-
-
-            });
-        }
-
-
-        vm.listarReferenciasNoCerradasPendiente = function () {
-
-
-            ReferenciasNoCerradas.list({
-                "id": vm.losAsistentesBuscaranInfPor,
-                "tipo": "1"
-            }, function (res) {
-
-                //console.log(" ** ReferenciasNoCerradas Ok ->");
-                //console.log(res);
-
-
-                vm.ReferenciasNoCerradas = res;
-
-                angular.forEach(vm.ReferenciasNoCerradas, function (v) {
-                    v.ordenEstado = (v.accionId.id == 5) ? 1 : 2;
-                    v.cLike = v.referidoId.nombre + " " + $filter('date')(v.fecha, 'MMM d, yyyy') + " " + v.canalname + " " + v.accionId.nombre;
-                });
-
-                vm.ReferenciasNoCerradas = $filter('orderBy')(vm.ReferenciasNoCerradas, ['ordenEstado']);
-
-                vm.listarReferenciasReagendadas();
-
-
-            }, function (err) {
-                vm.mostrarLoading = false;
-                //console.log(" ** ReferenciasNoCerradas Err ->");
-                //console.log(err);
-
-                toastr.error("Ha ocurrido un problema al cargar las referencias pendientes.", " " + err.status + " " + err.statusText)
-
-
-            });
-        }
-
-
-        vm.desbloquearReferencia = function () {
-            vm.referenciaSeleccionada.blockedbycall = 0;
-            vm.referenciaSeleccionada.fechablockedbycall = null;
-            vm.referencias = new Referencias(vm.referenciaSeleccionada);
-
-            vm.referencias.$update({},
-                function (res) {
-                    // 
-                    //console.log(" ** referencias Ok ->");
-                    //console.log(res);
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al desbloquear las referencias.", " " + err.status + " " + err.statusText)
-
-                    //console.log(" ** referencias Err ->");
-                    //console.log(err);
-
-                });
-        }
-
-        vm.verificarBloqueo = function (c, deDondeVengo) {
-
-            var param = {
-                "id": (vm.rollUsuario == 'adm' || vm.rollUsuario == 'sup') ? c : c.id
-            };
-            Referencias.list(param,
-                function (res) {
-
-
-                    vm.mostrarActividadesContactos(res);
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-
-                    toastr.error("Ha ocurrido un problema al verificar bloqueo las referencias.", " " + err.status + " " + err.statusText)
-                    //console.log(" ** Referencias Err ->");
-                    //console.log(err);
-
-                });
-
-        };
-
-        vm.updateReferenciaPriodidad = function (res) {
-            // debugger
-
-            console.log(res);
-
-            res.prioritario = (res.prioritario == 1) ? 0 : 1;
-
-            res.$update({},
-                function (res) {
-                    toastr.success("Referencia actualizada con exito.", "Ok")
-                    vm.cargarPerfilDeUsuario();
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al actualizar Referencia", " " + err.status + " " + err.statusText)
-
-                });
-        }
-
-
-        vm.myPrioridad = function (c, deDondeVengo) {
-
-            // alert("Se establecera como prioritario ..!!!" + c + " " + deDondeVengo);
-
-            // debugger
-            Referencias.get({
-                "id": c
-            },
-                function (res) {
-                    vm.updateReferenciaPriodidad(res);
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al cargar lista de actividades.", " " + err.status + " " + err.statusText)
-
-                    //console.log(" ** Bitacoras Err ->");
-                    //console.log(err);
-
-                });
-
-        };
-
-
-        $scope.verificarBloqueo = function (c) {
-            vm.verificarBloqueo(c);
-        }
-
-        $scope.myPrioridad = function (c) {
-            vm.myPrioridad(c);
-        }
-
-        vm.validarRut = function (rut) {
-
-            var valor = rut;
-            valor = valor.replace('-', '');
-
-            if (valor.substr(0, 2) == "SR") {
-                return true;
-            }
-
-            cuerpo = valor.slice(0, -1);
-            dv = valor.slice(-1).toUpperCase();
-
-
-            if (cuerpo.length < 7) {
-                swal("Are you sure?", {
-                    icon: 'warning',
-                    title: 'Atencion',
-                    text: 'El RUT ingresado -> ' + rut + ',  esta INCOMPLETO.',
-                    dangerMode: true,
-                });
-                vm.mostrarLoading = false;
-                return false;
-            }
-
-            suma = 0;
-            multiplo = 2;
-
-            for (i = 1; i <= cuerpo.length; i++) {
-
-                index = multiplo * valor.charAt(cuerpo.length - i);
-
-                suma = suma + index;
-
-                if (multiplo < 7) {
-                    multiplo = multiplo + 1;
-                } else {
-                    multiplo = 2;
-                }
-
-            }
-
-            dvEsperado = 11 - (suma % 11);
-
-            dv = (dv == 'K') ? 10 : dv;
-            dv = (dv == 0) ? 11 : dv;
-
-            if (dvEsperado != dv) {
-                swal("Are you sure?", {
-                    icon: 'warning',
-                    title: 'Atencion',
-                    text: 'El RUT ingresado -> ' + rut + ',  NO ES VALIDO.',
-                    dangerMode: true,
-                });
-                vm.mostrarLoading = false;
-                return false;
-            }
-
-
-            return true;
-
-        }
-
-
-
-        vm.activarGrafico = function () {
-
-
-            var config = {
-                type: 'pie',
-                data: {
-                    datasets: [{
-                        data: [
-                            vm.PanelTotales.tinactividad,
-                            vm.PanelTotales.tinteresados,
-                            vm.PanelTotales.tderivados,
-                            vm.PanelTotales.treagendados,
-                            vm.PanelTotales.tatendidos,
-                            vm.PanelTotales.tsinexito,
-                            vm.PanelTotales.tgenesis,
-                            vm.PanelTotales.tcerrados,
-                        ],
-                        backgroundColor: [
-                            vm.PanelTotales.colorbinactividad,
-                            vm.PanelTotales.colorbinteresados,
-                            vm.PanelTotales.colorbderivados,
-                            vm.PanelTotales.colorbreagendados,
-                            vm.PanelTotales.colorbatendidos,
-                            vm.PanelTotales.colorbsinexito,
-                            vm.PanelTotales.colorbgenesis,
-                            vm.PanelTotales.colorbcerrados,
-                        ],
-                        label: 'Dataset 1'
-                    }],
-                    labels: [
-                        'Iniciado',
-                        'Interesado',
-                        'Derivados',
-                        'Reagendado',
-                        'Atendido',
-                        'Sin Exito',
-                        'Genesis',
-                        'Venta Exitosa'
-                    ]
-                },
-                options: {
-                    responsive: true
-                }
-            };
-
-            var ctx = document.getElementById('lineChart').getContext('2d');
-            new Chart(ctx, config);
-
-        };
-
-
-
-        vm.activarTabla = function () {
-
-            vm.comboBox = '<div class="input-group" ><select style="width: 140px;">';
-
-            angular.forEach(vm.ejecutivos, function (e) {
-                vId = (e.id) ? e.id : "";
-                vNombre = (e.nombre) ? e.nombre : "";
-                vOption = '<option value="' + vId + '">' + vNombre + '</option>';
-                vm.comboBox = vm.comboBox + vOption;
-
-            });
-
-            vm.comboBox = vm.comboBox + '</select></div>';
-
-            vm.ReferenciasNoCerradas = null;
-            vm.verTabla = true;
             vm.mostrarLoading = false;
-            
+
+            toastr.error(
+                "Ha ocurrido un problema al verificar bloqueo las referencias.",
+                " " + err.status + " " + err.statusText
+            );
+        }
+    );
+};
 
 
+// =============================
+// ACTUALIZAR PRIORIDAD REFERENCIA
+// =============================
+vm.updateReferenciaPriodidad = function (res) {
+
+    console.log(res);
+
+    // Toggle de prioridad
+    res.prioritario = (res.prioritario == 1) ? 0 : 1;
+
+    res.$update({},
+        function () {
+
+            toastr.success("Referencia actualizada con exito.", "Ok");
+
+            // Refrescar datos del usuario
+            vm.cargarPerfilDeUsuario();
+        },
+        function (err) {
+
+            vm.mostrarLoading = false;
+
+            toastr.error(
+                "Ha ocurrido un problema al actualizar Referencia",
+                " " + err.status + " " + err.statusText
+            );
+        }
+    );
+};
+
+
+// =============================
+// OBTENER REFERENCIA Y CAMBIAR PRIORIDAD
+// =============================
+vm.myPrioridad = function (c, deDondeVengo) {
+
+    Referencias.get({
+        "id": c
+    },
+        function (res) {
+
+            vm.updateReferenciaPriodidad(res);
+
+        },
+        function (err) {
+
+            vm.mostrarLoading = false;
+
+            toastr.error(
+                "Ha ocurrido un problema al cargar lista de actividades.",
+                " " + err.status + " " + err.statusText
+            );
+        }
+    );
+};
+
+
+// =============================
+// WRAPPERS EN $scope (COMPATIBILIDAD VIEW)
+// =============================
+$scope.verificarBloqueo = function (c) {
+    vm.verificarBloqueo(c);
+};
+
+$scope.myPrioridad = function (c) {
+    vm.myPrioridad(c);
+};
+
+
+// =============================
+// VALIDAR RUT CHILENO
+// =============================
+vm.validarRut = function (rut) {
+
+    var valor = rut.replace('-', '');
+
+    // Caso especial (prefijo SR)
+    if (valor.substr(0, 2) == "SR") {
+        return true;
+    }
+
+    var cuerpo = valor.slice(0, -1);
+    var dv = valor.slice(-1).toUpperCase();
+
+    // Validación de largo mínimo
+    if (cuerpo.length < 7) {
+
+        swal("Are you sure?", {
+            icon: 'warning',
+            title: 'Atencion',
+            text: 'El RUT ingresado -> ' + rut + ',  esta INCOMPLETO.',
+            dangerMode: true,
+        });
+
+        vm.mostrarLoading = false;
+        return false;
+    }
+
+    var suma = 0;
+    var multiplo = 2;
+
+    // Cálculo DV
+    for (var i = 1; i <= cuerpo.length; i++) {
+
+        var index = multiplo * valor.charAt(cuerpo.length - i);
+        suma += index;
+
+        multiplo = (multiplo < 7) ? multiplo + 1 : 2;
+    }
+
+    var dvEsperado = 11 - (suma % 11);
+
+    dv = (dv == 'K') ? 10 : dv;
+    dv = (dv == 0) ? 11 : dv;
+
+    // Validación DV
+    if (dvEsperado != dv) {
+
+        swal("Are you sure?", {
+            icon: 'warning',
+            title: 'Atencion',
+            text: 'El RUT ingresado -> ' + rut + ',  NO ES VALIDO.',
+            dangerMode: true,
+        });
+
+        vm.mostrarLoading = false;
+        return false;
+    }
+
+    return true;
+};
+
+
+// =============================
+// ACTIVAR GRÁFICO (CHART.JS)
+// =============================
+vm.activarGrafico = function () {
+
+    var config = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [
+                    vm.PanelTotales.tinactividad,
+                    vm.PanelTotales.tinteresados,
+                    vm.PanelTotales.tderivados,
+                    vm.PanelTotales.treagendados,
+                    vm.PanelTotales.tatendidos,
+                    vm.PanelTotales.tsinexito,
+                    vm.PanelTotales.tgenesis,
+                    vm.PanelTotales.tcerrados,
+                ],
+                backgroundColor: [
+                    vm.PanelTotales.colorbinactividad,
+                    vm.PanelTotales.colorbinteresados,
+                    vm.PanelTotales.colorbderivados,
+                    vm.PanelTotales.colorbreagendados,
+                    vm.PanelTotales.colorbatendidos,
+                    vm.PanelTotales.colorbsinexito,
+                    vm.PanelTotales.colorbgenesis,
+                    vm.PanelTotales.colorbcerrados,
+                ],
+                label: 'Dataset 1'
+            }],
+            labels: [
+                'Iniciado',
+                'Interesado',
+                'Derivados',
+                'Reagendado',
+                'Atendido',
+                'Sin Exito',
+                'Genesis',
+                'Venta Exitosa'
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    };
+
+    var ctx = document.getElementById('lineChart').getContext('2d');
+
+    // Inicialización del gráfico
+    new Chart(ctx, config);
+};
+
+
+vm.activarTabla = function () {
+
+    // Inicializa el HTML del combo box
+    vm.comboBox = '<div class="input-group"><select style="width: 140px;">';
+
+    // Itera sobre la lista de ejecutivos para construir las opciones del select
+    angular.forEach(vm.ejecutivos, function (e) {
+
+        // Valida valores nulos o indefinidos
+        var vId = (e.id) ? e.id : "";
+        var vNombre = (e.nombre) ? e.nombre : "";
+
+        // Construye la opción HTML
+        var vOption = '<option value="' + vId + '">' + vNombre + '</option>';
+
+        // Agrega la opción al combo
+        vm.comboBox += vOption;
+    });
+
+    // Cierra el select
+    vm.comboBox += '</select></div>';
+
+    // Reinicia referencias
+    vm.ReferenciasNoCerradas = null;
+
+    // Muestra la tabla y oculta loading
+    vm.verTabla = true;
+    vm.mostrarLoading = false;
+};
+
+
+
+vm.mostrarProspectos = function () {
+
+    // Control de vistas: contactos vs actividades en prospectos
+    vm.verContactos.contactos = false;
+    vm.verContactos.actividades = false;
+    vm.verProspectos.contactos = true;
+    vm.verProspectos.actividades = false;
+};
+
+
+
+vm.cargarPanel = function () {
+
+    // Si viene undefined, se fuerza a string 'undefined'
+    vm.usuarioSupervisaA2String = (vm.usuarioSupervisaA2String == undefined) ? 'undefined' : vm.usuarioSupervisaA2String;
+
+    // Llamada al servicio para obtener datos del panel
+    PanelTotales.list({
+        "sup": vm.usuarioSupervisaA2String,
+        "anio": vm.anioParamUrlDataTable,
+        "mes": vm.mesParamUrlDataTable,
+        "suc": vm.sucursalesSelectFiltroPanel2
+    },
+    function (res) {
+
+        // Asigna respuesta
+        vm.PanelTotales = res;
+
+        // Inicializa gráfico y filtro de calendario
+        vm.activarGrafico();
+        vm.activarCalendarFiltroGraph();
+
+    },
+    function (err) {
+
+        // Manejo de error
+        vm.mostrarLoading = false;
+
+        toastr.error(
+            "Ha ocurrido un problema al cargar PanelTotales.",
+            " " + err.status + " " + err.statusText
+        );
+    });
+};
+
+
+
+vm.mostrarComentarios2 = function () {
+
+    // Obtiene el rol del usuario
+    RolesUsuariosNombre.list({
+        "id": vm.usuario
+    },
+    function (res) {
+
+        // Si es administrador o supervisor
+        if (vm.rollUsuario == "adm" || vm.rollUsuario == "sup") {
+            vm.cargarPanel();
+            vm.verTabla = false;
+            vm.mostrarLoading = false;
         }
 
+        // Scroll al inicio
+        window.scrollTo(0, 0);
 
+        // Reset de estados de UI
+        vm.estoyViendoUnaRef = false;
+        vm.mostrarCargarExcel = false;
+        vm.mostrarIngresarReferido = false;
 
-        vm.mostrarProspectos = function () {
-            vm.verContactos.contactos = false;
-            vm.verContactos.actividades = false;
-            vm.verProspectos.contactos = true;
-            vm.verProspectos.actividades = false;
+        vm.verContactos.contactos = true;
+        vm.verContactos.actividades = false;
+
+        vm.verProspectos.contactos = false;
+        vm.verProspectos.actividades = false;
+
+        // Carga de datos según rol
+        if (vm.rollUsuario == "adm" || vm.rollUsuario == "sup") {
+            vm.listarReferenciasReagendadasFull();
         }
 
-
-        vm.cargarPanel = function () {
-
-
-            //                vm.mesParamUrlDataTable = (vm.mesParamUrlDataTable == undefined) ? "" : vm.mesParamUrlDataTable
-
-
-
-            vm.usuarioSupervisaA2String = (vm.usuarioSupervisaA2String == undefined) ? 'undefined' : vm.usuarioSupervisaA2String;
-            PanelTotales.list({
-                "sup": vm.usuarioSupervisaA2String,
-                "anio": vm.anioParamUrlDataTable,
-                "mes": vm.mesParamUrlDataTable,
-                "suc": vm.sucursalesSelectFiltroPanel2
-            },
-                function (res) {
-
-                    //console.log(" ** PanelTotales Ok ->");
-                    //console.log(res);
-
-                    vm.PanelTotales = res;
-                    vm.activarGrafico();
-                    vm.activarCalendarFiltroGraph();
-
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-
-                    toastr.error("Ha ocurrido un problema al cargar PanelTotales.", " " + err.status + " " + err.statusText)
-
-                    //console.log(" ** PanelTotales Err ->");
-                    //console.log(err);
-
-                });
-
-
+        if (vm.rollUsuario == "usr" || vm.rollUsuario == "ast") {
+            vm.listarReferenciasNoCerradasPendiente();
+            vm.listarReferenciasNoCerradasTodasEje();
         }
 
+    },
+    function (err) {
 
-        vm.mostrarComentarios2 = function () {
-            RolesUsuariosNombre.list({
-                "id": vm.usuario
-            },
-                function (res) {
+        // Manejo de error
+        vm.mostrarLoading = false;
 
-                    //console.log(" ** RolesUsuariosNombre Ok ->");
-                    //console.log(res);
-                    // vm.rollUsuario = res.rol;                   
-
-                    if (vm.rollUsuario == "adm" || vm.rollUsuario == "sup") {
-                        vm.cargarPanel();
-                        vm.verTabla = false;
-                        vm.mostrarLoading = false;
-                    }
-
-                    window.scrollTo(0, 0);
-                    if (vm.SeTomoUnaReferencia) {
-                    }
-                    vm.estoyViendoUnaRef = false;
-                    vm.mostrarCargarExcel = false;
-                    vm.mostrarIngresarReferido = false;
-                    vm.verContactos.contactos = true;
-                    vm.verContactos.actividades = false;
-                    vm.verProspectos.contactos = false;
-                    vm.verProspectos.actividades = false;
-                    // quitar esto
-
-                    if (vm.rollUsuario == "adm" || vm.rollUsuario == "sup") {
-                        vm.listarReferenciasReagendadasFull();
-                    }
-                    if (vm.rollUsuario == "usr" || vm.rollUsuario == "ast") {
-                        vm.listarReferenciasNoCerradasPendiente();
-                        // vm.listarReferenciasNoCerradasFinalizadas()
-                        // vm.listarReferenciasNoCerradasSinExito();
-                        vm.listarReferenciasNoCerradasTodasEje();
-                    }
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
+        toastr.error(
+            "Hubo un problema al tratar de cargar el rol del usuario.",
+            "Atencion " + err.status + " " + err.statusText
+        );
+    });
+};
 
 
-                    toastr.error("Hubo un problema al tratar de cargar el rol del usuario. ", "Atencion " + err.status + " " + err.statusText);
-                    //console.log(" ** RolesUsuariosNombre Err ->");
-                    //console.log(err);
+
+vm.volverDeEjecutiva = function () {
+
+    // Comportamiento según rol
+    if (vm.rollUsuario == "adm" || vm.rollUsuario == "sup") {
+
+        // Reset de estados UI
+        vm.estoyViendoUnaRef = false;
+        vm.mostrarCargarExcel = false;
+        vm.mostrarIngresarReferido = false;
+
+        vm.verContactos.contactos = true;
+        vm.verContactos.actividades = false;
+
+        vm.verProspectos.contactos = false;
+        vm.verProspectos.actividades = false;
+
+    } else {
+        // Usuario normal vuelve a contactos
+        vm.mostrarContactos();
+    }
+};
 
 
-                });
+
+vm.limpiarFiltroPrimero = function () {
+
+    // Limpia filtros
+    vm.mesAnioFiltroGraph = null;
+    vm.anioParamUrlDataTable = 'undefined';
+    vm.sucursalesSelectFiltroPanel = 'undefined';
+    vm.ejecutivosSelectFiltroPanel = undefined;
+
+    // Actualiza supervisor
+    vm.usuarioSupervisaA2String = vm.ejecutivosSelectFiltroPanel;
+
+    // Refresca gráficos
+    vm.actualizarGraficoPorFecha(false);
+    vm.actualizarGraficoPorSucursal(false);
+    vm.actualizarGraficoPorEjecutivo(false);
+
+    // Vuelve a vista principal
+    vm.mostrarContactos();
+};
+
+
+
+vm.mostrarContactos = function () {
+
+    // Carga acciones de ejecutivos
+    vm.cargarAccionesEjecutivos();
+};
+
+
+
+vm.actuareComoEjecutivo = function () {
+
+    // Cambia rol a usuario
+    vm.rollUsuario = 'usr';
+    vm.mostrarContactos();
+};
+
+
+
+vm.actuareComoSupervisor = function () {
+
+    // Cambia rol a supervisor
+    vm.rollUsuario = 'sup';
+    vm.mostrarContactos();
+};
+
+
+
+vm.mostrarActividadesProspectos = function (c) {
+
+    // Inicializa bitácora y actividad
+    vm.bitacoras = [];
+    vm.messageActividad = new Bitacoras();
+
+    // Scroll al inicio
+    window.scrollTo(0, 0);
+
+    // Asigna referencia seleccionada
+    vm.referenciaSeleccionada = c;
+
+    // Control de vistas
+    vm.verContactos.contactos = false;
+    vm.verContactos.actividades = false;
+
+    vm.verProspectos.contactos = false;
+    vm.verProspectos.actividades = true;
+
+    // Carga actividades
+    vm.listarActividades();
+};
+
+
+// =========================
+// FUNCIONES PRIVADAS (DOM)
+// =========================
+
+// Captura mes/año del filtro
+var capturarMesAnioFiltroGraph = function () {
+    var value = document.getElementById('idMesAnioFiltroGraph').value;
+    $scope.enviarCapturarMesAnioFiltroGraph(value);
+};
+
+// Captura fecha de nacimiento
+var capturarFechaNac = function () {
+    var value = document.getElementById('idfechaNac').value;
+    $scope.enviarCapturarFechaNac(value);
+};
+
+// Captura fecha de reagendamiento
+var capturarFechaReagendar = function () {
+    var value = document.getElementById('idfechaReagendar').value;
+    $scope.enviarCapturarFechaReagendar(value);
+};
+
+// Captura fecha de reagendamiento (segunda variante)
+var capturarFechaReagendar_reagendar = function () {
+    var value = document.getElementById('idfechaReagendar_reagendar').value;
+    $scope.enviarCapturarFechaReagendar(value);
+};
+
+// Envío de reagendamiento
+var enviarReagendar = function () {
+    var value = document.getElementById('idhora').value;
+    $scope.reagendar(value);
+};
+
+// Envío de reagendamiento con confirmación
+var enviarReagendar_reagendar = function () {
+
+    var isConfirmed = confirm("Desea reagendar ?");
+    if (!isConfirmed) {
+        return;
+    }
+
+    var value = document.getElementById('idhora_reagendar').value;
+    $scope.reagendar_reagendar(value);
+};
+
+
+
+vm.activarCalendarFiltroGraph = function () {
+
+    // Evento change del datepicker
+    $('#data_4 .input-group.date').change(function () {
+        capturarMesAnioFiltroGraph();
+    });
+
+    // Inicialización datepicker (mes/año)
+    $('#data_4 .input-group.date').datepicker({
+        minViewMode: 1,
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true,
+        todayHighlight: true,
+        format: 'yyyy-mm'
+    });
+};
+
+
+
+vm.activarCalendarFicha = function () {
+
+    // Evento change del datepicker
+    $('#data_2 .input-group.date').change(function () {
+        capturarFechaNac();
+    });
+
+    // Inicialización datepicker (fecha completa)
+    $('#data_2 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: 'yyyy/mm/dd'
+    });
+};
+
+    // Aquí continúa tu lógica de derivación...
+
+// Inicializa clockpicker y datepicker para reagendar (flujo principal)
+vm.activarCalendarReloj = function () {
+
+    // Inicializa el selector de hora
+    $('#clockpicker').clockpicker({
+        init: function () {
+            // Evento al inicializar
+        },
+        beforeShow: function () {
+            // Antes de mostrar
+        },
+        afterShow: function () {
+            // Después de mostrar
+        },
+        beforeHide: function () {
+            // Antes de ocultar
+        },
+        afterHide: function () {
+            // Después de ocultar
+        },
+        beforeHourSelect: function () {
+            // Antes de seleccionar hora
+        },
+        afterHourSelect: function () {
+            // Después de seleccionar hora
+        },
+        beforeDone: function () {
+            // Antes de confirmar selección
+        },
+        afterDone: function () {
+            // Al confirmar la hora seleccionada
+            enviarReagendar();
         }
+    });
+
+    // Evento al cambiar fecha
+    $('#data_1 .input-group.date').change(function () {
+        capturarFechaReagendar();
+    });
+
+    // Inicializa el datepicker
+    $('#data_1 .input-group.date').datepicker({
+        setDate: new Date(),
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: 'yyyy/mm/dd'
+    });
+
+    // Actualiza la fecha al día actual (+1 mal implementado originalmente)
+    $('#data_1 .input-group.date').datepicker('update', new Date());
+};
 
 
-        vm.volverDeEjecutiva = function () {
+// Inicializa clockpicker y datepicker para reagendar (flujo secundario)
+vm.activarCalendarReloj_reagendar = function () {
 
-            // definir cuando sea sup de donde vengo de pantalla de eje o de pantalla adm
+    // Inicializa el selector de hora
+    $('#clockpicker_reagendar').clockpicker({
+        init: function () {},
+        beforeShow: function () {},
+        afterShow: function () {},
+        beforeHide: function () {},
+        afterHide: function () {},
+        beforeHourSelect: function () {},
+        afterHourSelect: function () {},
+        beforeDone: function () {},
+        afterDone: function () {
+            // Al confirmar la hora seleccionada
+            enviarReagendar_reagendar();
+        }
+    });
 
-            if (vm.rollUsuario == "adm" || vm.rollUsuario == "sup") {
-                vm.estoyViendoUnaRef = false;
-                vm.mostrarCargarExcel = false;
-                vm.mostrarIngresarReferido = false;
-                vm.verContactos.contactos = true;
-                vm.verContactos.actividades = false;
-                vm.verProspectos.contactos = false;
-                vm.verProspectos.actividades = false;
-            } else {
-                vm.mostrarContactos();
+    // Evento al cambiar fecha
+    $('#data_1_reagendar .input-group.date').change(function () {
+        capturarFechaReagendar_reagendar();
+    });
+
+    // Inicializa el datepicker
+    $('#data_1_reagendar .input-group.date').datepicker({
+        setDate: new Date(),
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: 'yyyy/mm/dd'
+    });
+
+    // Actualiza la fecha al día actual
+    $('#data_1_reagendar .input-group.date').datepicker('update', new Date());
+};
+
+
+// Muestra actividades y contactos asociados a una referencia
+vm.mostrarActividadesContactos = function (c) {
+
+    // Bloquea otras acciones mientras se trabaja con la referencia
+    vm.deshabilitadoOtros = true;
+
+    // Inicializa componentes de fecha y hora
+    vm.activarCalendarReloj();
+    vm.activarCalendarReloj_reagendar();
+
+    // Guarda referencia seleccionada
+    vm.referenciaSeleccionada = c;
+
+    // Instancia objeto de referencia
+    vm.referencias = new Referencias(vm.referenciaSeleccionada);
+
+    // Actualiza referencia (bloqueo en backend)
+    vm.referencias.$update({},
+        function (res) {
+
+            // Asigna ejecutivo si existe
+            if (res.ownere !== undefined) {
+                vm.ejecutivo = vm.getNombreEjecutiva(res.ownere);
             }
 
+            // Inicialización de estados
+            vm.SeTomoUnaReferencia = true;
+            vm.cerrarSinExitoFlag = null;
+            vm.cerrarConExitoFlag = null;
+            vm.mailCliente2Send = null;
+            vm.mensajesPreEstablecidosSelect = null;
+            vm.ejecutivosSelect = null;
 
-        }
+            // Inicializa fecha y hora actual
+            vm.hora = $filter('date')(new Date(), 'H:mm');
+            vm.fechaReagendar = $filter('date')(new Date(), 'yyyy-MM-dd');
+            vm.fechaHoraReagendar = null;
 
+<<<<<<< HEAD
         vm.limpiarFiltroPrimero = function () {
             vm.mesAnioFiltroGraph = null;
             vm.anioParamUrlDataTable = 'undefined';
@@ -4250,407 +4609,188 @@ angular
 
 
         vm.mostrarActividadesProspectos = function (c) {
+=======
+            // Limpia bitácoras
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
             vm.bitacoras = [];
             vm.messageActividad = new Bitacoras();
+
+            // Scroll al inicio
             window.scrollTo(0, 0);
-            vm.referenciaSeleccionada = c;
+
+            // Control de vistas
             vm.verContactos.contactos = false;
-            vm.verContactos.actividades = false;
+            vm.verContactos.actividades = true;
             vm.verProspectos.contactos = false;
-            vm.verProspectos.actividades = true;
+            vm.verProspectos.actividades = false;
+
+            // Carga actividades
             vm.listarActividades();
+
+        },
+        function (err) {
+
+            // Manejo de error
+            vm.mostrarLoading = false;
+            toastr.error("Ha ocurrido un problema al bloquear las referencias.", " " + err.status + " " + err.statusText);
         }
+    );
+};
 
-        var capturarMesAnioFiltroGraph = function () {
-            var value = document.getElementById('idMesAnioFiltroGraph').value;
-            $scope.enviarCapturarMesAnioFiltroGraph(value);
-        }
 
-        var capturarFechaNac = function () {
-            var value = document.getElementById('idfechaNac').value;
-            $scope.enviarCapturarFechaNac(value);
-        }
+// Muestra pestaña encuesta 1
+vm.fverEncuesta1 = function () {
 
-        var capturarFechaReagendar = function () {
-            var value = document.getElementById('idfechaReagendar').value;
-            $scope.enviarCapturarFechaReagendar(value);
-        }
+    vm.verEncuesta1 = true;
+    vm.verEncuesta2 = false;
 
-        var capturarFechaReagendar_reagendar = function () {
-            var value = document.getElementById('idfechaReagendar_reagendar').value;
-            $scope.enviarCapturarFechaReagendar(value);
-        }
+    // Carga preguntas asociadas
+    vm.fichaCanalDigitalPreguntas();
+};
 
-        var enviarReagendar = function () {
-            var value = document.getElementById('idhora').value;
-            $scope.reagendar(value);
-        }
 
-        var enviarReagendar_reagendar = function () {
+// Muestra pestaña encuesta 2
+vm.fverEncuesta2 = function () {
 
-            var isConfirmed = confirm("Desea reagendar ?");
-            if (!isConfirmed) {
-                return;
-            }
+    vm.verEncuesta2 = true;
+    vm.verEncuesta1 = false;
+};
 
-            // debugger
-            var value = document.getElementById('idhora_reagendar').value;
-            $scope.reagendar_reagendar(value);
-        }
 
-        vm.activarCalendarFiltroGraph = function () {
-            $('#data_4 .input-group.date').change(function () {
-                capturarMesAnioFiltroGraph();
+// Carga perfil del usuario y configura permisos/roles
+vm.cargarPerfilDeUsuario = function () {
+
+    RolesUsuariosNombre.list({
+        "id": vm.usuario
+    },
+    function (res) {
+
+        // Obtiene rol del usuario
+        vm.rollUsuario = $filter('filter')(res, function (t) {
+            return t.nombre.toUpperCase() === vm.usuario.toUpperCase();
+        });
+
+        vm.rollUsuario = vm.rollUsuario[0].rol;
+
+        // Determina si tiene doble rol (supervisor)
+        vm.dobleRoll = (vm.rollUsuario === 'sup');
+
+        // Construye etiqueta de perfil
+        vm.mostrarPerfil = vm.usuario + " / " +
+            (vm.rollUsuario === 'adm' ? "Administrador" :
+            vm.rollUsuario === 'sup' ? "Supervisor" :
+            vm.rollUsuario === 'usr' ? "Ejecutivo" : "Asistente");
+
+        // Usuarios que supervisa
+        vm.supervisa = $filter('filter')(res, function (t) {
+            return t.estado === 'es_supervisor_de';
+        });
+
+        // Usuarios de los que es asistente
+        vm.esAsistenteDe = $filter('filter')(res, function (t) {
+            return t.estado === 'es_asistente_de';
+        });
+
+        // Si es supervisor, arma lista de usuarios supervisados
+        if (vm.rollUsuario === 'sup') {
+            vm.usuarioSupervisaA = [];
+            vm.usuarioSupervisaA.push("'" + vm.usuario + "'");
+
+            angular.forEach(vm.supervisa, function (d) {
+                vm.usuarioSupervisaA.push("'" + d.nombre + "'");
             });
-            $('#data_4 .input-group.date').datepicker({
-                minViewMode: 1,
-                keyboardNavigation: false,
-                forceParse: false,
-                forceParse: false,
-                autoclose: true,
-                todayHighlight: true,
-                format: 'yyyy-mm'
-            });
+
+            vm.usuarioSupervisaA2String = vm.usuarioSupervisaA.toString();
         }
 
-        vm.activarCalendarFicha = function () {
-            $('#data_2 .input-group.date').change(function () {
-                capturarFechaNac();
-            });
-            $('#data_2 .input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true,
-                format: 'yyyy/mm/dd'
+        // Si es asistente, arma lista de usuarios asociados
+        if (vm.rollUsuario === 'ast') {
+            vm.usuarioEsAsistenteDe = [];
+
+            angular.forEach(vm.esAsistenteDe, function (d) {
+                vm.usuarioEsAsistenteDe.push(d.nombre);
             });
 
+            vm.usuarioEsAsistenteDe2String = vm.usuarioEsAsistenteDe.toString();
         }
 
-        vm.activarCalendarReloj = function () {
-            $('#clockpicker').clockpicker({
-                init: function () {
-                    // //console.log("colorpicker initiated");
-                },
-                beforeShow: function () {
-                    // //console.log("before show");
-                },
-                afterShow: function () {
-                    // //console.log("after show");
-                },
-                beforeHide: function () {
-                    // //console.log("before hide");
-                },
-                afterHide: function () {
-                    // //console.log("after hide");
-                },
-                beforeHourSelect: function () {
-                    // //console.log("before hour selected");
-                },
-                afterHourSelect: function () {
-                    // //console.log("after hour selected");
-                },
-                beforeDone: function () {
-                    // //console.log("before done");
-                },
-                afterDone: function () {
-                    // debugger
-                    enviarReagendar();
+        // Define criterio de búsqueda
+        vm.losAsistentesBuscaranInfPor =
+            (vm.rollUsuario === 'ast') ? vm.usuarioEsAsistenteDe2String : vm.usuario;
+
+        // Configuración de DataTable
+        vm.dataTableOpt = {
+            fnRowCallback: function (nRow, aData) {
+
+                // Resalta filas priorizadas
+                if (aData[10].includes('Priorizado')) {
+                    $('td', nRow).each(function () {
+                        $(this).addClass('bold');
+                    });
                 }
-            });
-            $('#data_1 .input-group.date').change(function () {
-                capturarFechaReagendar();
-            });
-            $('#data_1 .input-group.date').datepicker({
-                setDate: new Date(),
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true,
-                format: 'yyyy/mm/dd'
-            });
-
-            $('#data_1 .input-group.date').datepicker('update', new Date() + 1);
-
-        }
-
-
-        vm.activarCalendarReloj_reagendar = function () {
-            $('#clockpicker_reagendar').clockpicker({
-                init: function () {
-                    // //console.log("colorpicker initiated");
-                },
-                beforeShow: function () {
-                    // //console.log("before show");
-                },
-                afterShow: function () {
-                    // //console.log("after show");
-                },
-                beforeHide: function () {
-                    // //console.log("before hide");
-                },
-                afterHide: function () {
-                    // //console.log("after hide");
-                },
-                beforeHourSelect: function () {
-                    // //console.log("before hour selected");
-                },
-                afterHourSelect: function () {
-                    // //console.log("after hour selected");
-                },
-                beforeDone: function () {
-                    // //console.log("before done");
-                },
-                afterDone: function () {
-                    // debugger
-                    enviarReagendar_reagendar();
-                }
-            });
-
-            $('#data_1_reagendar .input-group.date').change(function () {
-                capturarFechaReagendar_reagendar();
-            });
-            $('#data_1_reagendar .input-group.date').datepicker({
-                setDate: new Date(),
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true,
-                format: 'yyyy/mm/dd'
-            });
-
-            $('#data_1_reagendar .input-group.date').datepicker('update', new Date() + 1);
-
-        }
-
-
-        vm.mostrarActividadesContactos = function (c) {
-            vm.deshabilitadoOtros = true;
-            vm.activarCalendarReloj();
-            vm.activarCalendarReloj_reagendar();
-
-
-
-
-
-            vm.referenciaSeleccionada = c;
-
-            vm.referencias = new Referencias(vm.referenciaSeleccionada);
-
-            vm.referencias.$update({},
-                function (res) {
-
-                    if (res.ownere != undefined) {
-                        vm.ejecutivo = vm.getNombreEjecutiva(res.ownere);
-                    }
-
-                    vm.SeTomoUnaReferencia = true;
-                    vm.cerrarSinExitoFlag = null
-                    vm.cerrarConExitoFlag = null
-                    vm.mailCliente2Send = null;
-                    vm.mensajesPreEstablecidosSelect = null;
-                    vm.ejecutivosSelect = null;
-                    vm.hora = $filter('date')(new Date, 'H:mm');
-                    vm.fechaReagendar = $filter('date')(new Date, 'yyyy-MM-dd');
-                    vm.fechaHoraReagendar = null;
-                    vm.bitacoras = [];
-                    vm.messageActividad = new Bitacoras();
-                    window.scrollTo(0, 0);
-                    vm.verContactos.contactos = false;
-                    vm.verContactos.actividades = true;
-                    vm.verProspectos.contactos = false;
-                    vm.verProspectos.actividades = false;
-                    vm.listarActividades();
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-                    toastr.error("Ha ocurrido un problema al bloquear las referencias.", " " + err.status + " " + err.statusText)
-
-                    //console.log(" ** referencias Err ->");
-                    //console.log(err);
-
-                });
-
-        }
-
-
-        //mostrarpestañas
-        vm.fverEncuesta1 = function () {
-
-            vm.verEncuesta1 = true;
-            vm.verEncuesta2 = !vm.verEncuesta1;
-            vm.fichaCanalDigitalPreguntas();
-            //                vm.fichaCanalDigital();
-
-        }
-
-        vm.fverEncuesta2 = function () {
-            vm.verEncuesta2 = true;
-            vm.verEncuesta1 = !vm.verEncuesta2;
-        }
-
-        vm.cargarPerfilDeUsuario = function () {
-
-
-            RolesUsuariosNombre.list({
-                "id": vm.usuario
+                return nRow;
             },
-                function (res) {
+            autoWidth: true,
+            responsive: true,
+            serverSide: true,
+            ajax: {
+                contentType: "application/json; charset=utf-8",
+                url: "webresources/cl.cnsv.referidosrrvv.models.referencias/nocerrado/fullajax",
+                beforeSend: function (x, y) {
 
-                    //console.log(" ** RolesUsuariosNombre Ok ->");
-                    //console.log(res);
-                    // vm.rollUsuario = res.rol;
+                    // Agrega parámetros dinámicos a la URL
+                    var sup = (vm.usuarioSupervisaA2String === undefined) ? "undefined" : vm.usuarioSupervisaA2String;
 
+                    y.url = y.url +
+                        "&sup=" + sup +
+                        "&anio=" + vm.anioParamUrlDataTable +
+                        "&mes=" + vm.mesParamUrlDataTable +
+                        "&suc=" + vm.sucursalesSelectFiltroPanel2;
 
-                    // obtiene el roll
-                    vm.rollUsuario = $filter('filter')(res, function (t) {
-                        if (t.nombre.toUpperCase() == vm.usuario.toUpperCase()) {
-                            return t;
-                        }
-                    });
+                    console.log(y.url);
+                }
+            },
+            processing: true,
+            lengthMenu: [10, 25, 50, 100],
+            paginate: true,
+            language: {
+                decimal: "",
+                emptyTable: "No hay información",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+                infoFiltered: "(Filtrado de _MAX_ total entradas)",
+                thousands: ",",
+                lengthMenu: "Mostrar _MENU_ Entradas",
+                loadingRecords: "Cargando...",
+                processing: "Procesando...",
+                search: "Buscar:",
+                zeroRecords: "Sin resultados encontrados",
+                paginate: {
+                    first: "Primero",
+                    last: "Ultimo",
+                    next: "Siguiente",
+                    previous: "Anterior"
+                }
+            },
+            columnDefs: [{
+                targets: 0,
+                searchable: false,
+                orderable: false,
+                className: 'dt-body-center',
+                render: function () {
+                    return vm.comboBox;
+                }
+            }]
+        };
 
-                    vm.rollUsuario = vm.rollUsuario[0].rol;
-                    vm.dobleRoll = (vm.rollUsuario == 'sup') ? true : false;
-
-                    vm.mostrarPerfil = vm.usuario + " / " + ((vm.rollUsuario == 'adm') ? "Administrador" : (vm.rollUsuario == 'sup') ? "Supervisor" : (vm.rollUsuario == 'usr') ? "Ejecutivo" : "Asistente");
-
-                    // obtiene a quien supervisa
-                    vm.supervisa = $filter('filter')(res, function (t) {
-                        if (t.estado == 'es_supervisor_de') {
-                            return t;
-                        }
-                    });
-
-
-                    // obtiene de quien es asistente
-                    vm.esAsistenteDe = $filter('filter')(res, function (t) {
-                        if (t.estado == 'es_asistente_de') {
-                            return t;
-                        }
-                    });
-
-                    // valida que sea sup el usuario entrante
-                    if (vm.rollUsuario == 'sup') {
-                        vm.usuarioSupervisaA = [];
-                        vm.usuarioSupervisaA.push("'" + vm.usuario + "'");
-                        angular.forEach(vm.supervisa, function (d) {
-                            vm.usuarioSupervisaA.push("'" + d.nombre + "'");
-                        });
-
-                        vm.usuarioSupervisaA2String = vm.usuarioSupervisaA.toString();
-                    }
-
-
-                    // valida que sea asistente
-                    if (vm.rollUsuario == 'ast') {
-                        vm.usuarioEsAsistenteDe = [];
-                        angular.forEach(vm.esAsistenteDe, function (d) {
-                            vm.usuarioEsAsistenteDe.push(d.nombre);
-                        });
-
-                        vm.usuarioEsAsistenteDe2String = vm.usuarioEsAsistenteDe.toString();
-
-
-                    }
-
-                    vm.losAsistentesBuscaranInfPor = (vm.rollUsuario == 'ast') ? vm.usuarioEsAsistenteDe2String : vm.usuario;
-
-                    // if (vm.losAsistentesBuscaranInfPor.length == 0) {
-                    //     toastr.error("Este asistente no esta asociado a ninguna ejecutiva.", " ");
-                    // }
-
-
-                    //coxrestaurar descomentar
-                    vm.dataTableOpt = {
-                        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-
-                            // console.log(aData);
-
-                            if (aData[10].includes('Priorizado')) {
-                                $('td', nRow).each(function () {
-                                    $(this).addClass('bold');
-                                });
-                            }
-                            return nRow;
-                        },
-                        "autoWidth": true,
-                        "responsive": true,
-                        "serverSide": true,
-                        'ajax': {
-                            'contentType': "application/json; charset=utf-8",
-                            'url': "webresources/cl.cnsv.referidosrrvv.models.referencias/nocerrado/fullajax",
-                            beforeSend: function (x, y) {
-                                var sup = (vm.usuarioSupervisaA2String == undefined) ? "undefined" : vm.usuarioSupervisaA2String;
-                                y.url = y.url + "&sup=" + sup + "&anio=" + vm.anioParamUrlDataTable + "&mes=" + vm.mesParamUrlDataTable + "&suc=" + vm.sucursalesSelectFiltroPanel2;
-                                console.log("*************************")
-                                console.log(y.url)
-                                console.log("*************************")
-                            },
-
-                        },
-                        "processing": true,
-                        "lengthMenu": [10, 25, 50, 100],
-                        "paginate": true,
-                        "language": {
-                            "decimal": "",
-                            "emptyTable": "No hay información",
-                            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Mostrar _MENU_ Entradas",
-                            "loadingRecords": "Cargando...",
-                            "processing": "Procesando...",
-                            "search": "Buscar:",
-                            "zeroRecords": "Sin resultados encontrados",
-                            "paginate": {
-                                "first": "Primero",
-                                "last": "Ultimo",
-                                "next": "Siguiente",
-                                "previous": "Anterior"
-                            }
-                        },
-                        'columnDefs': [{
-                            'targets': 0,
-                            'searchable': false,
-                            'orderable': false,
-                            'className': 'dt-body-center',
-                            'render': function (data, type, full, meta) {
-                                return vm.comboBox;
-                            }
-                        }],
-
-                    };
-
-                    if (vm.dobleRoll) {
-                        // vm.actuareComoEjecutivo();
-                        vm.actuareComoSupervisor()
-                    } else {
-                        vm.cargarAccionesEjecutivos();
-
-                    }
-
-
-                },
-                function (err) {
-                    vm.mostrarLoading = false;
-
-
-                    toastr.error("Hubo un problema al tratar de cargar el rol del usuario. ", "Atencion " + err.status + " " + err.statusText);
-                    //console.log(" ** RolesUsuariosNombre Err ->");
-                    //console.log(err);
-
-
-                });
-
-
+        // Flujo según rol
+        if (vm.dobleRoll) {
+            vm.actuareComoSupervisor();
+        } else {
+            vm.cargarAccionesEjecutivos();
         }
 
+<<<<<<< HEAD
        // coxrestaurar
 //       Auth.loadUserInfo().success(function(userInfo) {
 //           vm.mailUsuario = userInfo.email;
@@ -4664,10 +4804,35 @@ angular
 //
 //
 //       });
+=======
+    },
+    function (err) {
 
-        // coxrestaurar borrar
-       vm.cargarPerfilDeUsuario();
-
-
-
+        // Manejo de error
+        vm.mostrarLoading = false;
+        toastr.error("Hubo un problema al tratar de cargar el rol del usuario. ", "Atencion " + err.status + " " + err.statusText);
     });
+};
+
+
+// Carga información del usuario autenticado (Keycloak)
+Auth.loadUserInfo().success(function (userInfo) {
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
+
+    vm.mailUsuario = userInfo.email;
+    vm.usuario = userInfo.preferred_username;
+    vm.usuarioname = userInfo.name;
+
+    console.log("**** Ok -> keycloak.loadUserInfo");
+
+    vm.cargarPerfilDeUsuario();
+
+<<<<<<< HEAD
+    });
+=======
+}).error(function (err) {
+
+    console.log("**** Err -> keycloak.loadUserInfo", err);
+
+});
+>>>>>>> d0df4d5 (Actualizacion y comentarios)

@@ -11,15 +11,23 @@ angular
         ImportarReferidos, ReferenciasReagendadasFull, Referidos, PanelTotales,
         Ejecutivos, Referencias, ReferenciasReagendadas, Acciones, BitacorasByReferencia,
         Bitacoras, ReferenciasNoCerradas, $filter, $location, $http, $window, $scope,
+<<<<<<< HEAD
         $resource) {
+=======
+        $resource, Auth) {
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
 
         //coxrestaurar poner arriba de ultimo en controller
         //, Auth 
  
         // Auth
         var vm = this;
+<<<<<<< HEAD
         // vm.usuario = '';
         vm.usuario = 'adm';
+=======
+        vm.usuario = '';
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
         vm.filtroPrioridad=false;
 
         //coxrestaurar 
@@ -28,7 +36,11 @@ angular
         //vm.usuario = 'aeastorg';
 
         //vm.usuario = 'aeastorg'; 
+<<<<<<< HEAD
         vm.usuario = 'aeastorg'; 
+=======
+        //vm.usuario = 'rentpriv'; 
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
         //vm.token = Auth.token;
 
 
@@ -44,8 +56,12 @@ angular
 
 
         vm.rollUsuario = "";
+<<<<<<< HEAD
         // vm.dobleRoll = false;
         vm.dobleRoll = true;
+=======
+        vm.dobleRoll = false;
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
         vm.old_rut = "";
         vm.canalDigital = [];
         vm.canalDigitalRespuestas = [];
@@ -340,6 +356,11 @@ angular
 
 
             }, function (err) {
+<<<<<<< HEAD
+=======
+                alert(window.location.href);
+                debugger;
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                 vm.mostrarLoading = false;
                 vm.mostrarLoading = false;
                 toastr.error("Ha ocurrido un problema al importar referidos.", " " + err.status + " " + err.statusText)
@@ -4245,8 +4266,11 @@ angular
         }
 
         vm.actuareComoSupervisor = function () {
+<<<<<<< HEAD
             alert("Se establecerá como supervisor3 ..!!!");
 
+=======
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
             vm.rollUsuario = 'sup';
             vm.mostrarContactos();
         }
@@ -4632,7 +4656,11 @@ angular
 
                     if (vm.dobleRoll) {
                         // vm.actuareComoEjecutivo();
+<<<<<<< HEAD
                         vm.()
+=======
+                        vm.actuareComoSupervisor()
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                     } else {
                         vm.cargarAccionesEjecutivos();
 
@@ -4669,7 +4697,11 @@ angular
        });
 
         // coxrestaurar borrar
+<<<<<<< HEAD
        vm.cargarPerfilDeUsuario();
+=======
+       //vm.cargarPerfilDeUsuario();
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
 
 
 

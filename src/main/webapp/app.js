@@ -42,9 +42,18 @@
     angular.element(document).ready(function($http) {
 
         //coxrestaurar
+<<<<<<< HEAD
         // initializeKeycloak();
         //coxrestaurar eliminar
         angular.bootstrap(document, ["todo"]); 
+=======
+        alert("**** Ok -> document.ready");
+        // initializeKeycloak();
+        //coxrestaurar eliminar
+        angular.bootstrap(document, ["todo"]);
+        alert("**** paso ... Ok -> document.ready");
+
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
 
  
     }); 

@@ -19,10 +19,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.UserTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<<<<<<< HEAD
 =======
 import  java.util.logging.Logger;
 
 >>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
+=======
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
 
 /**
  *
@@ -58,6 +61,9 @@ public class CrearSucursales {
 
                 } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                     // UPDATE
                     Sucursales s = sc.findSucursales(rjs.getCODSUCURSAL());
 
@@ -65,9 +71,12 @@ public class CrearSucursales {
                         throw new Exception("Sucursal no existe: " + rjs.getCODSUCURSAL());
                     }
 
+<<<<<<< HEAD
 =======
                     s = sc.findSucursales(rjs.getCODSUCURSAL());
 >>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
+=======
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                     s.setNombre(rjs.getSUCURSAL() != null ? rjs.getSUCURSAL().trim() : null);
                     s.setDireccion(rjs.getDIRECCION());
                     s.setComuna(rjs.getCOMUNA());
@@ -77,17 +86,23 @@ public class CrearSucursales {
 
             } catch (Exception e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 LOGGER.error("Error procesando sucursal", e);
 
 =======
                LOGGER.log(java.util.logging.Level.SEVERE, "Error ocurrido", e);
 >>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
+=======
+                LOGGER.error("Error procesando sucursal", e);
+
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                 ErrorCrearSucursalesOut ecrs = new ErrorCrearSucursalesOut();
                 ecrs.setCODSUCURSAL(rjs.getCODSUCURSAL());
                 ecrs.setSUCURSAL(rjs.getSUCURSAL());
                 ecrs.setDIRECCION(rjs.getDIRECCION());
                 ecrs.setCOMUNA(rjs.getCOMUNA());
                 ecrs.setREGION(rjs.getREGION());
+<<<<<<< HEAD
 <<<<<<< HEAD
                 ecrs.setERROR("Error procesando sucursal: " + e.getMessage());
 
@@ -97,6 +112,10 @@ public class CrearSucursales {
                                 + rjs.getCODSUCURSAL()
                                 + " , la sucursal no existe.");
 >>>>>>> 1141929deb487e775cd53dcc1693762570b88cfc
+=======
+                ecrs.setERROR("Error procesando sucursal: " + e.getMessage());
+
+>>>>>>> d0df4d5 (Actualizacion y comentarios)
                 ecrsList.add(ecrs);
             }
         }
